@@ -1,0 +1,40 @@
+/* Keep the timeline inside its own scroll area on narrow screens. */
+.board, .board .col, .board .card, #schedule { min-width: 0; max-width: 100%; }
+#schedule.bryntum-board { width: 100%; overflow-x: auto; overflow-y: hidden; overscroll-behavior-inline: contain; }
+#schedule.bryntum-board .b-schedulerpro { min-width: 1092px; max-width: none; }
+#schedule .b-sch-event { border: 1px solid var(--c-border); font-weight: 700; font-size: 12px; }
+#schedule .b-sch-event.ghost { border: 2px dashed currentColor; opacity: 0.62; pointer-events: none; }
+#schedule .b-sch-event-content { overflow: visible; white-space: nowrap; text-overflow: clip; font-size: 12px; padding-inline: 2px; }
+#schedule .b-grid-cell[data-column="name"] { font-size: 12px; }
+#schedule .b-sch-dependency { stroke: var(--c-muted); }
+#schedule .moved, #schedule .pulse { animation: schedule-highlight 0.9s ease-in-out; }
+@keyframes schedule-highlight { 50% { outline: 3px solid var(--c-accent); filter: brightness(1.12); } }
+.diagnostic-toggle, .schedule-months { display: none; }
+@media (max-width: 1024px) {
+  .schedule-months { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0; }
+  .schedule-months output { flex-basis: 100%; }
+  #schedule.bryntum-board .b-schedulerpro { min-width: 0; max-width: 100%; }
+}
+@media (max-width: 600px) {
+  .board .col { display: contents; }
+  .board > #draft-rules { order: 0; }
+  .board > #round-strip { order: 1; }
+  #pending-card { order: 2; }
+  #round-card { order: 3; }
+  #chat-card { order: 4; }
+  .board > .schedule-card { order: 5; }
+  #whatif-card { order: 6; }
+  .board section[aria-labelledby="guard-title"] { order: 7; }
+  #settle-card { order: 8; }
+  #links-card { order: 9; }
+  #rules-card { order: 10; }
+  #changes-card { order: 11; }
+  #log-card { order: 12; }
+  .diagnostic-toggle { display: inline-flex; margin-bottom: 12px; }
+  .schedule-months { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0; }
+  .schedule-months output { flex-basis: 100%; }
+  #schedule.bryntum-board .b-schedulerpro { min-width: 0; max-width: 100%; }
+  #schedule .b-sch-event, #schedule .b-sch-event-content,
+  #schedule .b-grid-cell[data-column="name"] { font-size: 12px; }
+  #schedule .b-sch-event-content { padding-inline: 2px; }
+}

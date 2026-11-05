@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Circlekeeper</title>
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/vendor/bryntum/calendar/fontawesome/css/fontawesome.css">
+  <link rel="stylesheet" href="/vendor/bryntum/calendar/fontawesome/css/solid.css">
+  <link rel="stylesheet" href="/vendor/bryntum/calendar/calendar.css">
+  <link rel="stylesheet" href="/vendor/bryntum/calendar/svalbard-light.css">
+  <link rel="stylesheet" href="/css/bryntum-calendar.css">
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">Circlekeeper</span>
+    <span class="spacer"></span>
+    <span id="sandbox-label" class="pill solid">Test member (PayPal sandbox)</span>
+  </header>
+  <main class="page narrow">
+    <h1 id="member-name"></h1>
+    <p id="notice" class="error" aria-live="polite"></p>
+    <section class="card stack ask" id="ask-card">
+      <h2 id="pending-title">Waiting for you</h2>
+      <div id="pending" class="stack"></div>
+    </section>
+    <section class="card stack" id="share-card">
+      <h2 id="share-title">Your share</h2>
+      <div id="share-summary" class="stack"></div>
+      <div id="shares" class="stack"></div>
+      <div id="member-actions" class="stack"></div>
+    </section>
+    <section class="card stack">
+      <h2 id="turn-title">Your turn</h2>
+      <div id="turn"></div>
+    </section>
+    <section class="card stack">
+      <div class="row between"><h2 id="chat-title">Treasurer</h2><span id="recorded-run" class="small muted"></span></div>
+      <div id="chat" class="chat" aria-live="polite"></div>
+      <div id="suggestions" class="suggestions"></div>
+      <p id="live-off" class="small muted" hidden></p>
+      <form id="chat-form" class="chat-form">
+        <input id="chat-input" aria-label="Message" autocomplete="off" required>
+        <button id="chat-send" class="primary">Send</button>
+      </form>
+    </section>
+    <section class="card stack">
+      <h2 id="calendar-title">Your dates</h2>
+      <div id="calendar" class="agenda"></div>
+      <div id="calendar-modes" class="member-calendar-modes" hidden>
+        <button type="button" data-calendar-mode="month" aria-pressed="true">Month</button>
+        <button type="button" data-calendar-mode="agenda" aria-pressed="false">Agenda</button>
+      </div>
+      <div id="calendar-bryntum" class="member-bryntum-calendar" hidden></div>
+    </section>
+    <section class="card stack" id="receipt-card" hidden>
+      <h2 id="receipt-links-title"></h2>
+      <div id="receipt-links" class="stack"></div>
+    </section>
+  </main>
+  <script type="module" src="/js/member.js"></script>
+</body>
+</html>

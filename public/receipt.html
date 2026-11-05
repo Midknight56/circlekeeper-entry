@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Round receipt</title>
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/receipt.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">Circlekeeper</a>
+    <span class="spacer"></span>
+    <a id="back" class="button small" href="/">Back</a>
+  </header>
+  <main class="page narrow">
+    <section class="card stack">
+      <h1 id="title">Round receipt</h1>
+      <p id="delta" class="big"></p>
+      <p id="reason" class="error" aria-live="polite"></p>
+      <div id="lines" class="stack"></div>
+      <p id="hash" class="small muted"></p>
+      <button id="check" class="primary" type="button">Check the book</button>
+      <p id="result" aria-live="polite"></p>
+    </section>
+  </main>
+  <script type="module" src="/js/receipt.js"></script>
+</body>
+</html>

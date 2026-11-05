@@ -1,0 +1,4 @@
+/* Long PayPal ids and the SHA-256 code must wrap on a 360 px phone instead of pushing the page sideways.
+   A grid column sized "auto" grows to its content; minmax(0, 1fr) keeps it to the screen. */
+main.page, .card.stack, #lines { grid-template-columns: minmax(0, 1fr); }
+#hash, #lines, #lines .row { overflow-wrap: anywhere; min-width: 0; }

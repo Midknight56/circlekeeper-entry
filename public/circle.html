@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Circlekeeper board</title>
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/vendor/bryntum/schedulerpro/fontawesome/css/fontawesome.css">
+  <link rel="stylesheet" href="/vendor/bryntum/schedulerpro/fontawesome/css/solid.css">
+  <link rel="stylesheet" href="/vendor/bryntum/schedulerpro/schedulerpro.css">
+  <link rel="stylesheet" href="/vendor/bryntum/schedulerpro/svalbard-light.css">
+  <link rel="stylesheet" href="/css/bryntum-board.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" style="text-decoration:none">Circlekeeper</a>
+    <h1 id="title">Circle</h1>
+    <span id="status" class="pill solid"></span>
+    <span class="spacer"></span>
+    <span class="pill solid">PayPal sandbox · test money</span>
+  </header>
+  <p id="notice" class="error page" aria-live="polite"></p>
+  <main class="page board">
+    <section class="card stack" id="draft-rules"></section>
+    <section class="card" id="round-strip" aria-label="This round at a glance"></section>
+    <section class="card schedule-card">
+      <div class="row between"><h2>Schedule</h2><span class="small muted">Each chip is a share or a pot. A lock means the pot waits for unpaid shares.</span></div>
+      <div id="schedule"></div>
+      <div id="missed-action" class="row" hidden></div>
+    </section>
+    <div class="col">
+      <section class="card" id="pending-card" hidden>
+        <h2>Waiting for a tap</h2>
+        <div id="pending" class="stack"></div>
+      </section>
+      <section class="card" id="round-card" aria-labelledby="round-title">
+        <h2 id="round-title">This round</h2>
+        <div id="round" class="stack"></div>
+      </section>
+      <section class="card stack" id="whatif-card">
+        <h2>What if</h2>
+        <form id="whatif-form" class="row">
+          <label>Change <select id="whatif-kind"><option value="leave">A member leaves</option><option value="join">A member joins</option></select></label>
+          <label id="whatif-member-wrap">Member <select id="whatif-member"></select></label>
+          <label id="whatif-month-wrap">Leaves in <select id="whatif-month"></select></label>
+          <label id="whatif-name-wrap" hidden>Name <input id="whatif-name" maxlength="80"></label>
+          <button class="primary">Preview</button>
+        </form>
+        <div id="whatif-lines" class="stack"></div>
+        <div id="whatif-money" class="stack"></div>
+        <div id="whatif-actions"></div>
+      </section>
+      <section class="card" aria-labelledby="guard-title">
+        <h2 id="guard-title">Try to break it</h2>
+        <button type="button" class="diagnostic-toggle" aria-expanded="true" aria-controls="guard-body">Show checks</button>
+        <div class="stack" id="guard-body">
+          <p class="small muted">Run three isolated checks against the circle rules.</p>
+          <div id="guard-action"></div>
+          <div id="guard-results" class="stack" aria-live="polite"></div>
+        </div>
+      </section>
+      <section class="card" id="settle-card" hidden>
+        <h2>Settled rounds</h2>
+        <div id="settlements" class="share-list"></div>
+        <div id="receipt-links" class="stack"></div>
+      </section>
+    </div>
+    <div class="col">
+      <section class="card stack" id="chat-card">
+        <div class="row between"><h2>Treasurer</h2><span id="recorded-run" class="small muted"></span></div>
+        <div id="chat" class="chat" aria-live="polite"></div>
+        <div id="suggestions" class="suggestions"></div>
+        <form id="chat-form" class="chat-form">
+          <input id="chat-input" aria-label="Message to the treasurer" placeholder="Ask the treasurer" autocomplete="off" required>
+          <button id="chat-send" class="primary">Send</button>
+        </form>
+      </section>
+      <section class="card links" id="links-card">
+        <h2>Member views</h2>
+        <div id="member-links" class="row"></div>
+      </section>
+      <section class="card stack" id="rules-card" hidden></section>
+      <section class="card" id="changes-card">
+        <h2>Changes</h2>
+        <button type="button" class="diagnostic-toggle" aria-expanded="true" aria-controls="changes">Show changes</button>
+        <div id="changes"></div>
+      </section>
+      <section class="card" id="log-card">
+        <div class="row between"><h2>Activity</h2><span class="small muted">every model and PayPal call</span></div>
+        <button type="button" class="diagnostic-toggle" aria-expanded="true" aria-controls="log-body">Show activity</button>
+        <div id="log-body">
+          <div id="filters" class="filters"></div>
+          <div id="log" class="log"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="/js/circle.js"></script>
+</body>
+</html>

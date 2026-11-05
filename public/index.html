@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Circlekeeper</title>
+  <meta name="description" content="A savings circle kept by an AI treasurer, paid through PayPal. Sandbox demo.">
+  <link rel="stylesheet" href="/css/theme.css">
+  <style>
+    .member-link-row { display: flex; align-items: flex-start; gap: 12px; min-width: 0; }
+    .member-link-row .member-link-copy { flex: 0 0 auto; }
+    .member-link-row .member-link-details { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">Circlekeeper</span>
+    <span class="spacer"></span>
+    <span class="pill solid">PayPal sandbox · test money</span>
+  </header>
+  <main class="page narrow">
+    <section class="stack">
+      <h1 class="big">A savings circle that keeps itself.</h1>
+      <p class="muted">Shares come in by PayPal invoice. The pot goes out by PayPal payout once two members confirm. An AI treasurer
+        answers each member in their own language, and helps people agree on swaps and short shares. It never moves money
+        on its own.</p>
+    </section>
+    <section class="card stack">
+      <h2>Try the demo</h2>
+      <p>Six members, $100 a month. You get your own copy: the organiser's board, and a link to each member's view.</p>
+      <div class="row"><button id="demo" class="primary" type="button">Open the demo circle</button></div>
+      <p class="small muted">Every PayPal call is real, in the PayPal sandbox. The treasurer's answers in the demo are a recorded run.</p>
+    </section>
+    <section class="card stack">
+      <h2>Make your own circle</h2>
+      <form id="create" class="stack">
+        <label for="description" class="small muted">Describe the circle in plain words</label>
+        <textarea id="description" placeholder="6 of us: Keisha, Marisol, Dana, Theo, Amélie and Sam. $100 a month from December. Keisha needs the pot in February."></textarea>
+        <div class="row"><button class="primary">Make it</button></div>
+      </form>
+      <p class="small muted">Members are matched to six PayPal sandbox test accounts. No real money moves.</p>
+      <div id="result" class="stack" aria-live="polite"></div>
+    </section>
+    <p id="notice" class="error" aria-live="polite"></p>
+    <p class="small muted">Privacy: a circle keeps the names and messages typed into it, and is deleted 14 days after it
+      was made. No cookies, no tracking. A daily counter of how many circles a visitor makes keeps a salted hash of the
+      connection, never the address itself.</p>
+  </main>
+  <script type="module">
+    import { post } from "/js/api.js";
+    import { el } from "/js/ui.js";
+    const notice = document.querySelector("#notice");
+    document.querySelector("#demo").addEventListener("click", async (event) => {
+      event.target.disabled = true;
+      notice.textContent = "";
+      try {
+        const d = await post("/api/demo");
+        location.assign(d.organiserUrl);
+      } catch (error) {
+        notice.textContent = error.message;
+        event.target.disabled = false;
+      }
+    });
+    const form = document.querySelector("#create");
+    const result = document.querySelector("#result");
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      result.replaceChildren();
+      const description = form.querySelector("textarea").value.trim();
+      if (!description) {
+        result.append(el("p", "Describe your circle first.", "error"));
+        return;
+      }
+      const b = form.querySelector("button");
+      b.disabled = true;
+      try {
+        const d = await post("/api/circles", { text: description });
+        const open = el("a", "Open your board", "button primary");
+        open.href = d.organiserUrl;
+        result.append(open);
+        result.append(el("p", "Review the parsed terms and choose the rules on your board before Start.", "small muted"));
+        result.append(el("h3", "Member links", "small"));
+        for (const member of d.memberLinks || []) {
+          const row = el("div", null, "member-link-row");
+          const details = el("div", null, "member-link-details");
+          details.append(el("strong", member.name));
+          const url = location.origin + member.url;
+          details.append(el("div", url, "small muted"));
+          const copy = el("button", "Copy", "small member-link-copy");
+          copy.type = "button";
+          copy.addEventListener("click", async () => {
+            await navigator.clipboard.writeText(url);
+            copy.textContent = "Copied";
+            setTimeout(() => { copy.textContent = "Copy"; }, 1600);
+          });
+          row.append(details, copy);
+          result.append(row);
+        }
+        result.append(el("p", "Keep this page's links: each member's link is their own private view.", "small muted"));
+        for (const n of d.notes || []) result.append(el("p", n, "small muted"));
+        for (const n of d.broken || []) result.append(el("p", `Could not meet: ${n}`, "small error"));
+      } catch (error) {
+        result.append(el("p", error.message, "error"));
+      } finally {
+        b.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

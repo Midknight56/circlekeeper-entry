@@ -1,0 +1,47 @@
+{
+  "id": "WH-5V790832MK2325109-73704918Y2043480M",
+  "create_time": "2026-10-23T03:54:25.439Z",
+  "resource_type": "payouts",
+  "event_type": "PAYMENT.PAYOUTSBATCH.DENIED",
+  "summary": "Payouts batch got denied.",
+  "resource": {
+    "batch_header": {
+      "payout_batch_id": "ZF9V79NEDAULG",
+      "batch_status": "DENIED",
+      "time_created": "2026-10-23T03:54:05Z",
+      "sender_batch_header": {
+        "sender_batch_id": "lead-0ba42bb01dee"
+      },
+      "funding_source": "BALANCE",
+      "amount": {
+        "currency": "USD",
+        "value": "250.00"
+      },
+      "fees": {
+        "currency": "USD",
+        "value": "0.00"
+      },
+      "payments": 1
+    },
+    "links": [
+      {
+        "rel": "self",
+        "method": "GET",
+        "href": "https://api-m.sandbox.paypal.com/redacted"
+      }
+    ]
+  },
+  "links": [
+    {
+      "rel": "self",
+      "method": "GET",
+      "href": "https://api-m.sandbox.paypal.com/redacted"
+    },
+    {
+      "rel": "resend",
+      "method": "POST",
+      "href": "https://api-m.sandbox.paypal.com/redacted"
+    }
+  ],
+  "event_version": "1.0"
+}

@@ -1,0 +1,144 @@
+{
+  "id": "WH-7GP34024P28567743-42N45662431676451",
+  "create_time": "2026-10-23T05:33:37.206Z",
+  "resource_type": "invoices",
+  "event_type": "INVOICING.INVOICE.PAID",
+  "summary": "An invoice is paid, partially paid, or payment is made and is pending.",
+  "resource": {
+    "invoice": {
+      "id": "INV2-3T6F-KW9C-6MUN-YUHL",
+      "status": "MARKED_AS_PAID",
+      "detail": {
+        "currency_code": "USD",
+        "note": "Your share of $100.00 for round 1.",
+        "category_code": "SHIPPABLE",
+        "invoice_number": "CK-3h9m9a3y9f-01-4",
+        "invoice_date": "2026-10-22",
+        "payment_term": {
+          "term_type": "DUE_ON_DATE_SPECIFIED",
+          "due_date": "2026-12-10"
+        },
+        "viewed_by_recipient": false,
+        "group_draft": false,
+        "metadata": {
+          "create_time": "2026-10-23T05:32:46Z",
+          "last_update_time": "2026-10-23T05:33:21Z",
+          "first_sent_time": "2026-10-23T05:32:47Z",
+          "last_sent_time": "2026-10-23T05:32:47Z",
+          "created_by_flow": "REGULAR_SINGLE",
+          "recipient_view_url": "https://www.sandbox.paypal.com/invoice/p/#3T6FKW9C6MUNYUHL",
+          "invoicer_view_url": "https://www.sandbox.paypal.com/invoice/details/INV2-3T6F-KW9C-6MUN-YUHL",
+          "caller_type": "API_V2_INVOICE",
+          "spam_info": {}
+        },
+        "archived": false
+      },
+      "invoicer": {
+        "email_address": "member@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Test",
+              "surname": "Test",
+              "full_name": "Test"
+            },
+            "email_address": "member@example.com"
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": "ITEM-66A93834KX761545B",
+          "name": "Saturday circle: share for round 1",
+          "quantity": "1",
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "100.00"
+          }
+        }
+      ],
+      "configuration": {
+        "tax_calculated_after_discount": false,
+        "tax_inclusive": false,
+        "allow_tip": false,
+        "allow_only_pay_by_bank": false,
+        "allow_vba_payments": false,
+        "save_item_for_future": true,
+        "template_id": "TEMP-6RK80874D5907605T"
+      },
+      "amount": {
+        "breakdown": {
+          "item_total": {
+            "currency_code": "USD",
+            "value": "100.00"
+          },
+          "discount": {
+            "invoice_discount": {
+              "amount": {
+                "currency_code": "USD",
+                "value": "0.00"
+              }
+            },
+            "item_discount": {
+              "currency_code": "USD",
+              "value": "0.00"
+            }
+          },
+          "tax_total": {
+            "currency_code": "USD",
+            "value": "0.00"
+          }
+        },
+        "currency_code": "USD",
+        "value": "100.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "0.00"
+      },
+      "payments": {
+        "paid_amount": {
+          "currency_code": "USD",
+          "value": "100.00"
+        },
+        "transactions": [
+          {
+            "type": "EXTERNAL",
+            "payment_id": "EXTR-3LL95712YH7403526",
+            "payment_date": "2026-10-23",
+            "payment_date_time": "2026-10-23T00:00:00Z",
+            "method": "CASH",
+            "amount": {
+              "currency_code": "USD",
+              "value": "100.00"
+            }
+          }
+        ]
+      },
+      "links": [
+        {
+          "rel": "self",
+          "method": "GET",
+          "href": "https://api-m.sandbox.paypal.com/redacted"
+        }
+      ],
+      "unilateral": false,
+      "settings": {}
+    }
+  },
+  "links": [
+    {
+      "rel": "self",
+      "method": "GET",
+      "href": "https://api-m.sandbox.paypal.com/redacted"
+    },
+    {
+      "rel": "resend",
+      "method": "POST",
+      "href": "https://api-m.sandbox.paypal.com/redacted"
+    }
+  ],
+  "event_version": "1.0"
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "circlekeeper",
+  // The hackathon account (not the main one). Deploy with `python dev/cf.py deploy`.
+  "account_id": "9fc5652f61b1f60eb20e1d9a2ef70041",
+  // For your own account, change account_id above and id/database_id on the CK/LEDGER lines below.
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "dev": { "port": 8795, "ip": "127.0.0.1" },
+  "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": ["/api/*", "/webhooks/*", "/healthz", "/c/*", "/m/*"] },
+  "kv_namespaces": [{ "binding": "CK", "id": "12b6d509c7034cd385816f5ecd0adc4c" }],
+  "ai": { "binding": "AI" },
+  // The shared neuron ledger of every hackathon app. Remote even in `wrangler dev`, so local runs count too.
+  "d1_databases": [{ "binding": "LEDGER", "database_name": "hackathon-ledger", "database_id": "023377a8-ad19-413c-b769-d195d05427b3", "remote": true }],
+  "durable_objects": {
+    "bindings": [
+      { "name": "HUB", "class_name": "HubDO" },
+      { "name": "CIRCLE", "class_name": "CircleDO" }
+    ]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["HubDO", "CircleDO"] }],
+  "triggers": { "crons": ["0 13 * * *", "*/5 * * * *"] },
+  "vars": { "BUILD_TAG": "2026-10-23", "PAYPAL_BASE": "https://api-m.sandbox.paypal.com", "DEV_ROUTES": "0", "LIVE_AI": "0" },
+  "observability": { "enabled": true }
+}

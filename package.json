@@ -1,0 +1,25 @@
+{
+  "name": "circlekeeper",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "e2e": "playwright test",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "shots": "node dev/shots.mjs"
+  },
+  "devDependencies": {
+    "@bryntum/calendar-trial": "^7.3.7",
+    "@bryntum/schedulerpro-trial": "^7.3.7",
+    "@cloudflare/vitest-plugin": "^1.4.7",
+    "@cloudflare/workers-types": "^5.20261023.1",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.12",
+    "wrangler": "^4.152.0"
+  }
+}

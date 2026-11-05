@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "circlekeeper",
+  // Copy to wrangler.jsonc and replace account_id, CK id and LEDGER database_id with your own ids.
+  "account_id": "<your account id>",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "dev": { "port": 8795, "ip": "127.0.0.1" },
+  "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": ["/api/*", "/webhooks/*", "/healthz", "/c/*", "/m/*"] },
+  "kv_namespaces": [{ "binding": "CK", "id": "<your KV namespace id>" }],
+  "ai": { "binding": "AI" },
+  // This binding is remote even in dev. Use your own database and apply dev/ledger.sql before live answers.
+  "d1_databases": [{ "binding": "LEDGER", "database_name": "hackathon-ledger", "database_id": "<your D1 database id>", "remote": true }],
+  "durable_objects": {
+    "bindings": [
+      { "name": "HUB", "class_name": "HubDO" },
+      { "name": "CIRCLE", "class_name": "CircleDO" }
+    ]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["HubDO", "CircleDO"] }],
+  "triggers": { "crons": ["0 13 * * *", "*/5 * * * *"] },
+  "vars": { "BUILD_TAG": "2026-10-23", "PAYPAL_BASE": "https://api-m.sandbox.paypal.com", "DEV_ROUTES": "0", "LIVE_AI": "0" },
+  "observability": { "enabled": true }
+}

@@ -1,0 +1,133 @@
+{
+  "recordedAt": "2026-10-23T02:18:58.334607+00:00",
+  "circle": "mmc3nyhewj",
+  "turns": [
+    {
+      "key": "setup",
+      "speaker": "organiser",
+      "text": "6 of us: Marisol, Sam, Keisha, Theo, Amélie and Dana. $100 a month from December. Marisol speaks Spanish, Amélie (French). Keisha needs the pot in February. Dana and Theo confirm payouts.",
+      "steps": [
+        "{\"action\":null,\"say\":[{\"to\":\"organiser\",\"text\":\"The circle has 6 members: Marisol, Sam, Keisha, Theo, Amélie, and Dana. Each pays $100 a month. Marisol speaks Spanish, Amélie speaks French. Keisha wants the pot in February. Dana and Theo confirm payouts.\",\"refs\":[\"call_0\"]}]}"
+      ],
+      "neurons": 9.35,
+      "drops": [],
+      "tools": [],
+      "said": [
+        "The circle has 6 members: Marisol, Sam, Keisha, Theo, Amélie, and Dana. Each pays $100 a month. Marisol speaks Spanish, Amélie speaks French. Keisha wants the pot in February. Dana and Theo confirm payouts.",
+        "I could not answer that safely just now. The organiser can help, or try asking another way."
+      ]
+    },
+    {
+      "key": "marisol-short",
+      "speaker": "marisol",
+      "text": "Solo tengo 60 esta semana.",
+      "steps": [
+        "{\"action\":{\"tool\":\"propose_split\",\"args\":{\"round\":1,\"member_id\":\"marisol\",\"now_amount\":60}},\"say\":[{\"to\":\"member:marisol\",\"text\":\"Entiendo. Puedes pagar $60 ahora y el resto más tarde, según las reglas del círculo.\",\"refs\":[\"call_0\"]}]}",
+        "{\"action\":null,\"say\":[{\"to\":\"member:marisol\",\"text\":\"Marisol, tu propuesta de pagar $60 ahora y $40 más tarde está en espera. Por favor, espera a que se confirme.\",\"refs\":[\"call_2\"]}]}"
+      ],
+      "neurons": 19.36,
+      "drops": [
+        "dropped: not backed by a tool result (\"$60\")"
+      ],
+      "tools": [
+        "propose_split: proposed"
+      ],
+      "said": [
+        "Puedes pagar 60,00 $ ahora y 40,00 $ antes del 24 de diciembre. Toca Sí y enviaré dos facturas en lugar de esta.",
+        "Entiendo.",
+        "Marisol, tu propuesta de pagar $60 ahora y $40 más tarde está en espera. Por favor, espera a que se confirme."
+      ]
+    },
+    {
+      "key": "dana-swap",
+      "speaker": "dana",
+      "text": "My rent went up. Can I take March instead of May?",
+      "steps": [
+        "{\"action\":{\"tool\":\"find_swap_partners\",\"args\":{\"member_id\":\"dana\",\"wanted_month\":\"2027-03\"}},\"say\":[{\"to\":\"dana\",\"text\":\"I will check who could swap with you for March.\",\"refs\":[\"call_0\"]}]}",
+        "{\"action\":null,\"say\":[{\"to\":\"dana\",\"text\":\"You could swap with Theo (March), Amélie (April), Sam (January), or Marisol (December). Tell me who you'd like to swap with.\",\"refs\":[\"call_2\"]}]}"
+      ],
+      "neurons": 19.25,
+      "drops": [],
+      "tools": [
+        "find_swap_partners: 5 partners"
+      ],
+      "said": [
+        "I will check who could swap with you for March.",
+        "You could swap with Theo (March), Amélie (April), Sam (January), or Marisol (December). Tell me who you'd like to swap with."
+      ]
+    },
+    {
+      "key": "amelie-turn",
+      "speaker": "amelie",
+      "text": "Quand est mon tour ?",
+      "steps": [
+        "{\"action\":{\"tool\":\"get_circle\",\"args\":{}},\"say\":[{\"to\":\"member:amelie\",\"text\":\"Votre tour est en avril 2027, selon le calendrier de la cercle.\",\"refs\":[\"call_0\"]}]}",
+        "{\"action\":null,\"say\":[{\"to\":\"member:amelie\",\"text\":\"Votre tour est en avril 2027, selon le calendrier de la cercle.\",\"refs\":[\"call_2\"]}]}"
+      ],
+      "neurons": 19.81,
+      "drops": [],
+      "tools": [
+        "get_circle: active"
+      ],
+      "said": [
+        "Votre tour est en avril 2027, selon le calendrier de la cercle.",
+        "Votre tour est en avril 2027, selon le calendrier de la cercle."
+      ]
+    },
+    {
+      "key": "theo-release",
+      "speaker": "theo",
+      "text": "How does the pot get sent?",
+      "steps": [
+        "{\"action\":{\"tool\":\"draft_pot_release\",\"args\":{\"round\":1}},\"say\":[{\"to\":\"member:theo\",\"text\":\"I will draft the pot release for round 1. Two confirmers must tap to send the money.\",\"refs\":[\"call_0\"]}]}",
+        "{\"action\":null,\"say\":[{\"to\":\"member:theo\",\"text\":\"The pot for round 1 is ready to be sent. Two confirmers need to tap to proceed.\",\"refs\":[\"call_2\"]}]}"
+      ],
+      "neurons": 18.12,
+      "drops": [
+        "dropped: not backed by a tool result (\"sent\")"
+      ],
+      "tools": [
+        "draft_pot_release: pot waiting"
+      ],
+      "said": [
+        "Two confirmers need to tap to proceed.",
+        "I will draft the pot release for round 1. Two confirmers must tap to send the money."
+      ]
+    },
+    {
+      "key": "organiser-remind",
+      "speaker": "organiser",
+      "text": "Send Sam a kind reminder.",
+      "steps": [
+        "{\"action\":{\"tool\":\"draft_reminder\",\"args\":{\"member_id\":\"sam\",\"round\":1,\"tone\":\"kind\",\"reason\":\"unpaid share\",\"text\":\"Hi Sam, just a friendly reminder that your share for December is due by December 10th. Thanks for your attention!\"}},\"say\":[{\"to\":\"organiser\",\"text\":\"I've sent Sam a kind reminder about his unpaid share for December.\",\"refs\":[\"call_0\"]}]}",
+        "{\"action\":null,\"say\":[{\"to\":\"organiser\",\"text\":\"Sam has received a kind reminder about his unpaid share for December.\",\"refs\":[\"call_2\"]}]}"
+      ],
+      "neurons": 19.57,
+      "drops": [
+        "dropped: not backed by a tool result (\"sent\")",
+        "dropped: not backed by a tool result (\"December\")"
+      ],
+      "tools": [
+        "draft_reminder: sent"
+      ],
+      "said": [
+        "The circle has 6 members: Marisol, Sam, Keisha, Theo, Amélie, and Dana. Each pays $100 a month. Marisol speaks Spanish, Amélie speaks French. Keisha wants the pot in February. Dana and Theo confirm payouts.",
+        "I could not answer that safely just now. The organiser can help, or try asking another way."
+      ]
+    },
+    {
+      "key": "keisha-share",
+      "speaker": "keisha",
+      "text": "How much is my share, and when is my turn?",
+      "steps": [
+        "{\"action\":null,\"say\":[{\"to\":\"member:keisha\",\"text\":\"Your share is $100.00, and your turn is in February 2027 (month 2027-02).\",\"refs\":[\"call_0\"]}]}"
+      ],
+      "neurons": 9.19,
+      "drops": [],
+      "tools": [],
+      "said": [
+        "Your share is $100.00, and your turn is in February 2027 (month 2027-02)."
+      ]
+    }
+  ]
+}

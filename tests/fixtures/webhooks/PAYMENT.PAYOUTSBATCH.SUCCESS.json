@@ -1,0 +1,49 @@
+{
+  "id": "WH-796613015U649004B-0H763970B9443651R",
+  "create_time": "2026-10-23T05:33:57.550Z",
+  "resource_type": "payouts",
+  "event_type": "PAYMENT.PAYOUTSBATCH.SUCCESS",
+  "summary": "Payouts batch completed successfully.",
+  "resource": {
+    "batch_header": {
+      "payout_batch_id": "E6AFDWYNZ2CJ6",
+      "batch_status": "SUCCESS",
+      "time_created": "2026-10-23T05:33:25Z",
+      "time_completed": "2026-10-23T05:33:48Z",
+      "time_closed": "2026-10-23T05:33:48Z",
+      "sender_batch_header": {
+        "sender_batch_id": "ck-3h9m9a3y9f-r1"
+      },
+      "funding_source": "BALANCE",
+      "amount": {
+        "currency": "USD",
+        "value": "600.00"
+      },
+      "fees": {
+        "currency": "USD",
+        "value": "12.00"
+      },
+      "payments": 1
+    },
+    "links": [
+      {
+        "rel": "self",
+        "method": "GET",
+        "href": "https://api-m.sandbox.paypal.com/redacted"
+      }
+    ]
+  },
+  "links": [
+    {
+      "rel": "self",
+      "method": "GET",
+      "href": "https://api-m.sandbox.paypal.com/redacted"
+    },
+    {
+      "rel": "resend",
+      "method": "POST",
+      "href": "https://api-m.sandbox.paypal.com/redacted"
+    }
+  ],
+  "event_version": "1.0"
+}

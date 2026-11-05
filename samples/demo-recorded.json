@@ -1,0 +1,83 @@
+{
+  "note": "Real answers of Workers AI @cf/qwen/qwen3-30b-a3b-fp8, recorded 23 Oct 2026 (UTC) with dev/record_turns.py on a visitor circle made from the demo text. Each step is the model's raw answer. The organiser's what if turn was recorded the same way on 28 Oct 2026 (run6).",
+  "turns": {
+    "setup": {
+      "steps": [
+        "{\"action\":null,\"say\":[{\"to\":\"organiser\",\"text\":\"The circle has 6 members: Marisol, Sam, Keisha, Theo, Amélie, and Dana. Each pays $100 a month. Marisol speaks Spanish, Amélie speaks French. Keisha needs the pot in February. Dana and Theo confirm payouts.\",\"refs\":[\"call_0\"]}]}"
+      ],
+      "neurons": 10.28,
+      "recordedAt": "2026-10-23T02:25:35.264296+00:00",
+      "run": "run5",
+      "liveDrops": 0
+    },
+    "marisol-short": {
+      "steps": [
+        "{\"action\":{\"tool\":\"propose_split\",\"args\":{\"round\":1,\"member_id\":\"marisol\",\"now_cents\":6000}},\"say\":[{\"to\":\"member:marisol\",\"text\":\"Propuesta: pagar 60 USD ahora y el resto más tarde. Por favor, confirma.\",\"refs\":[\"call_0\"]}]}",
+        "{\"action\":null,\"say\":[{\"to\":\"member:marisol\",\"text\":\"Tu propuesta de pagar 60 USD ahora y 40 USD más tarde se ha hecho. Por favor, confirma.\",\"refs\":[\"call_2\"]}]}"
+      ],
+      "neurons": 20.66,
+      "recordedAt": "2026-10-23T02:24:12.655194+00:00",
+      "run": "run3",
+      "liveDrops": 0
+    },
+    "dana-swap": {
+      "steps": [
+        "{\"action\":{\"tool\":\"find_swap_partners\",\"args\":{\"member_id\":\"dana\",\"wanted_month\":\"2027-03\"}},\"say\":[{\"to\":\"dana\",\"text\":\"I'll check who could swap with you for March.\",\"refs\":[\"call_0\"]}]}",
+        "{\"action\":{\"tool\":\"propose_swap\",\"args\":{\"from_member\":\"dana\",\"to_member\":\"theo\",\"reason\":\"Dana wants to take March instead of May. Theo is available for March.\"}},\"say\":[{\"to\":\"dana\",\"text\":\"I propose swapping with Theo for March. He needs to confirm.\",\"refs\":[\"call_2\"]}]}",
+        "{\"action\":null,\"say\":[{\"to\":\"dana\",\"text\":\"Your swap with Theo for March is pending. Wait for his confirmation.\",\"refs\":[\"call_3\"]}]}"
+      ],
+      "neurons": 32.29,
+      "recordedAt": "2026-10-23T02:25:06.048710+00:00",
+      "run": "run4",
+      "liveDrops": 1
+    },
+    "amelie-turn": {
+      "steps": [
+        "{\"action\":null,\"say\":[{\"to\":\"member:amelie\",\"text\":\"Votre tour est en avril 2027.\",\"refs\":[\"call_0\"]}]}"
+      ],
+      "neurons": 9.21,
+      "recordedAt": "2026-10-23T02:24:12.655194+00:00",
+      "run": "run3",
+      "liveDrops": 0
+    },
+    "theo-release": {
+      "steps": [
+        "{\"action\":{\"tool\":\"explain_rule\",\"args\":{\"rule_key\":\"confirmers\"}},\"say\":[{\"to\":\"member:theo\",\"text\":\"The pot is sent after two confirmers tap yes. The confirmers are Dana and Theo.\",\"refs\":[\"call_0\"]}]}",
+        "{\"action\":null,\"say\":[{\"to\":\"member:theo\",\"text\":\"The pot is sent after two confirmers tap yes. The confirmers are Dana and Theo.\",\"refs\":[\"call_2\"]}]}"
+      ],
+      "neurons": 19.68,
+      "recordedAt": "2026-10-23T02:24:12.655194+00:00",
+      "run": "run3",
+      "liveDrops": 0
+    },
+    "organiser-remind": {
+      "steps": [
+        "{\"action\":{\"tool\":\"draft_reminder\",\"args\":{\"member_id\":\"sam\",\"round\":1,\"tone\":\"gentle\",\"reason\":\"unpaid share\",\"text\":\"Dear Sam, this is a gentle reminder that your share for December is due on December 10th. Please pay it at your earliest convenience.\"}},\"say\":[{\"to\":\"organiser\",\"text\":\"I have sent Sam a gentle reminder about his unpaid share for December.\",\"refs\":[\"call_0\"]}]}",
+        "{\"action\":null,\"say\":[{\"to\":\"organiser\",\"text\":\"The reminder for Sam's unpaid share in December was sent.\",\"refs\":[\"call_2\"]}]}"
+      ],
+      "neurons": 21.7,
+      "recordedAt": "2026-10-23T02:25:35.264296+00:00",
+      "run": "run5",
+      "liveDrops": 0
+    },
+    "organiser-whatif": {
+      "steps": [
+        "{\"action\":{\"tool\":\"preview_what_if\",\"args\":{\"kind\":\"leave\",\"member\":\"theo\",\"month\":\"2027-03\"}},\"say\":[{\"to\":\"organiser\",\"text\":\"I will preview what would happen if Theo leaves in March.\",\"refs\":[\"call_0\"]}]}",
+        "{\"action\":null,\"say\":[{\"to\":\"organiser\",\"text\":\"If Theo leaves in March, Amélie would take the March pot and Dana would take the April pot. The circle needs a new confirmer. Theo has not paid yet, so the circle needs to agree how to settle this.\",\"refs\":[\"call_2\"]}]}"
+      ],
+      "neurons": 22.84,
+      "recordedAt": "2026-11-02T23:17:16.867312+00:00",
+      "run": "2026-11-02-run3",
+      "liveDrops": 1
+    },
+    "keisha-share": {
+      "steps": [
+        "{\"action\":null,\"say\":[{\"to\":\"member:keisha\",\"text\":\"Your share is $100.00, and your turn is in February 2027.\",\"refs\":[\"call_0\"]}]}"
+      ],
+      "neurons": 9.64,
+      "recordedAt": "2026-10-23T02:24:12.655194+00:00",
+      "run": "run3",
+      "liveDrops": 0
+    }
+  }
+}

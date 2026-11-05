@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "now": "2027-02-01T12:00:00.000Z",
+  "viewer": { "role": "organiser" },
+  "circle": {
+    "id": "demo", "name": "Saturday circle", "currency": "USD", "shareCents": 10000, "startMonth": "2026-12", "status": "active", "demo": true,
+    "rules": { "privacy": true, "confirmers": ["dana", "theo"], "shortShare": { "allowed": true, "minNowCents": 5000, "laterDays": 14 }, "missed": { "graceDays": 3, "action": "move_to_end" } },
+    "members": [
+      { "id": "keisha", "name": "Keisha", "lang": "en" }, { "id": "marisol", "name": "Marisol", "lang": "es" },
+      { "id": "dana", "name": "Dana", "lang": "en" }, { "id": "theo", "name": "Theo", "lang": "en" },
+      { "id": "amelie", "name": "Amélie", "lang": "fr" }, { "id": "sam", "name": "Sam", "lang": "en" }
+    ],
+    "rotation": [
+      { "round": 1, "memberId": "marisol", "month": "2026-12", "date": "2026-12-15" }, { "round": 2, "memberId": "dana", "month": "2027-01", "date": "2027-01-15" },
+      { "round": 3, "memberId": "theo", "month": "2027-02", "date": "2027-02-15" }, { "round": 4, "memberId": "amelie", "month": "2027-03", "date": "2027-03-15" },
+      { "round": 5, "memberId": "sam", "month": "2027-04", "date": "2027-04-15" }, { "round": 6, "memberId": "keisha", "month": "2027-05", "date": "2027-05-15" }
+    ]
+  },
+  "rounds": [
+    { "round": 1, "month": "2026-12", "date": "2026-12-15", "recipientId": "marisol", "pot": { "status": "paid", "cents": 60000, "confirmations": ["dana", "theo"], "payoutBatchId": "PAYOUT-1", "itemStatus": "SUCCESS" }, "shares": [
+      { "memberId": "keisha", "state": "paid", "reminded": false, "parts": [{ "cents": 10000, "status": "PAID", "invoiceId": "INV-1", "dueDate": "2026-12-10", "paidAt": "2026-12-02T10:00:00Z", "payerUrl": "https://paypal.example/1" }] },
+      { "memberId": "marisol", "state": "paid", "reminded": false, "parts": [{ "cents": 10000, "status": "PAID", "invoiceId": "INV-2", "dueDate": "2026-12-10", "paidAt": "2026-12-02T10:00:00Z", "payerUrl": "https://paypal.example/2" }] },
+      { "memberId": "dana", "state": "paid", "reminded": false, "parts": [{ "cents": 10000, "status": "PAID", "invoiceId": "INV-3", "dueDate": "2026-12-10", "paidAt": "2026-12-02T10:00:00Z", "payerUrl": "https://paypal.example/3" }] },
+      { "memberId": "theo", "state": "paid", "reminded": false, "parts": [{ "cents": 10000, "status": "PAID", "invoiceId": "INV-4", "dueDate": "2026-12-10", "paidAt": "2026-12-02T10:00:00Z", "payerUrl": "https://paypal.example/4" }] },
+      { "memberId": "amelie", "state": "paid", "reminded": false, "parts": [{ "cents": 10000, "status": "PAID", "invoiceId": "INV-5", "dueDate": "2026-12-10", "paidAt": "2026-12-02T10:00:00Z", "payerUrl": "https://paypal.example/5" }] },
+      { "memberId": "sam", "state": "paid", "reminded": false, "parts": [{ "cents": 10000, "status": "PAID", "invoiceId": "INV-6", "dueDate": "2026-12-10", "paidAt": "2026-12-02T10:00:00Z", "payerUrl": "https://paypal.example/6" }] }
+    ] },
+    { "round": 2, "month": "2027-01", "date": "2027-01-15", "recipientId": "dana", "pot": { "status": "drafted", "cents": 60000, "confirmations": ["dana"], "payoutBatchId": null, "itemStatus": null }, "shares": [
+      { "memberId": "keisha", "state": "sent", "reminded": false, "parts": [{ "cents": 10000, "status": "SENT", "invoiceId": "INV-7", "dueDate": "2027-01-10", "payerUrl": "https://paypal.example/7" }] },
+      { "memberId": "marisol", "state": "partial", "reminded": false, "parts": [{ "cents": 6000, "status": "PAID", "invoiceId": "INV-8", "dueDate": "2027-01-10", "payerUrl": "https://paypal.example/8" }, { "cents": 4000, "status": "UNPAID", "invoiceId": "INV-9", "dueDate": "2027-01-20", "payerUrl": "https://paypal.example/9" }] },
+      { "memberId": "dana", "state": "sent", "reminded": true, "parts": [{ "cents": 10000, "status": "UNPAID", "invoiceId": "INV-10", "dueDate": "2027-01-10", "payerUrl": "https://paypal.example/10" }] },
+      { "memberId": "theo", "state": "sent", "reminded": false, "parts": [{ "cents": 10000, "status": "UNPAID", "invoiceId": "INV-11", "dueDate": "2027-01-20", "payerUrl": "https://paypal.example/11" }] },
+      { "memberId": "amelie", "state": "none", "reminded": false, "parts": [] }, { "memberId": "sam", "state": "none", "reminded": false, "parts": [] }
+    ] },
+    { "round": 3, "month": "2027-02", "date": "2027-02-15", "recipientId": "theo", "pot": { "status": "waiting", "cents": 60000, "confirmations": [], "payoutBatchId": null, "itemStatus": null }, "shares": [] },
+    { "round": 4, "month": "2027-03", "date": "2027-03-15", "recipientId": "amelie", "pot": { "status": "waiting", "cents": 60000, "confirmations": [], "payoutBatchId": null, "itemStatus": null }, "shares": [] },
+    { "round": 5, "month": "2027-04", "date": "2027-04-15", "recipientId": "sam", "pot": { "status": "waiting", "cents": 60000, "confirmations": [], "payoutBatchId": null, "itemStatus": null }, "shares": [] },
+    { "round": 6, "month": "2027-05", "date": "2027-05-15", "recipientId": "keisha", "pot": { "status": "waiting", "cents": 60000, "confirmations": [], "payoutBatchId": null, "itemStatus": null }, "shares": [] }
+  ],
+  "swaps": [{ "id": "swap-1", "from": "dana", "to": "theo", "fromRound": 6, "toRound": 4, "status": "asked", "consents": { "theo": "yes" } }],
+  "splits": [{ "id": "split-1", "round": 2, "memberId": "marisol", "nowCents": 6000, "laterCents": 4000, "dueDate": "2027-01-20", "status": "proposed" }],
+  "messages": [
+    { "id": "m1", "to": "group", "from": "treasurer", "text": "Round two invoices are ready.", "at": "2026-12-12T09:00:00Z", "kind": "chat", "recorded": true },
+    { "id": "m2", "to": "group", "from": "marisol", "text": "Gracias, ya pagué la primera parte.", "at": "2026-12-12T09:02:00Z", "kind": "chat" },
+    { "id": "m3", "to": "member:keisha", "from": "treasurer", "text": "Your turn is in May.", "at": "2026-12-12T09:03:00Z", "kind": "chat" },
+    { "id": "m4", "to": "group", "from": "treasurer", "text": "Le pot attend deux confirmations.", "at": "2026-12-12T09:04:00Z", "kind": "chat" },
+    { "id": "m5", "to": "organiser", "from": "treasurer", "text": "One confirmation is still needed.", "at": "2026-12-12T09:05:00Z", "kind": "chat" },
+    { "id": "m6", "to": "group", "from": "dana", "text": "I can confirm once shares arrive.", "at": "2026-12-12T09:06:00Z", "kind": "chat" }
+  ],
+  "changes": [{ "at": "2026-12-12T09:00:00Z", "text": "Round two invoices sent" }],
+  "log": [
+    { "at": "2026-12-12T09:00:00Z", "kind": "paypal", "method": "POST", "path": "/v2/invoicing/invoices", "status": 201, "ids": ["INV-7"] },
+    { "at": "2026-12-12T08:59:00Z", "kind": "tool", "tool": "list_shares", "callId": "call-2", "note": "6 shares" },
+    { "at": "2026-12-12T08:58:00Z", "kind": "drop", "note": "dropped: missing confirmation" },
+    { "at": "2026-12-12T08:57:00Z", "kind": "paypal", "method": "POST", "path": "/v2/invoicing/invoices", "status": 201, "ids": ["INV-8"] },
+    { "at": "2026-12-12T08:56:00Z", "kind": "tool", "tool": "find_swap_partners", "callId": "call-3", "note": "2 partners" },
+    { "at": "2026-12-12T08:55:00Z", "kind": "paypal", "method": "GET", "path": "/v2/invoicing/invoices/INV-3", "status": 200, "ids": ["INV-3"] },
+    { "at": "2026-12-12T08:54:00Z", "kind": "drop", "note": "dropped: unsupported request" },
+    { "at": "2026-12-12T08:53:00Z", "kind": "tool", "tool": "check_rotation", "callId": "call-4", "note": "valid" },
+    { "at": "2026-12-12T08:52:00Z", "kind": "paypal", "method": "POST", "path": "/v1/payments/payouts", "status": 201, "ids": ["PAYOUT-1"] },
+    { "at": "2026-12-12T08:51:00Z", "kind": "tool", "tool": "get_circle", "callId": "call-5", "note": "loaded" },
+    { "at": "2026-12-12T08:50:00Z", "kind": "drop", "note": "dropped: no tool result" },
+    { "at": "2026-12-12T08:49:00Z", "kind": "paypal", "method": "POST", "path": "/v2/invoicing/invoices", "status": 201, "ids": ["INV-6"] }
+  ],
+  "treasurer": { "live": false, "resting": false, "callsLeft": 6 }
+}

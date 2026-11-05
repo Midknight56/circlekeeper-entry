@@ -1,0 +1,56 @@
+{
+  "id": "WH-1C8393962V3523800-1U840396TT6359327",
+  "create_time": "2026-10-23T05:33:57.353Z",
+  "resource_type": "payouts_item",
+  "event_type": "PAYMENT.PAYOUTS-ITEM.SUCCEEDED",
+  "summary": "A payout item has succeeded",
+  "resource": {
+    "transaction_id": "6EM418784H115244P",
+    "payout_item_fee": {
+      "currency": "USD",
+      "value": "12.00"
+    },
+    "transaction_status": "SUCCESS",
+    "sender_batch_id": "ck-3h9m9a3y9f-r1",
+    "time_processed": "2026-10-23T05:33:41Z",
+    "activity_id": "8ER49522GX811404A",
+    "payout_item": {
+      "recipient_type": "EMAIL",
+      "amount": {
+        "currency": "USD",
+        "value": "600.00"
+      },
+      "note": "Circlekeeper round 1",
+      "receiver": "member@example.com",
+      "sender_item_id": "ck-3h9m9a3y9f-r1-marisol",
+      "recipient_wallet": "PAYPAL"
+    },
+    "links": [
+      {
+        "rel": "self",
+        "method": "GET",
+        "href": "https://api-m.sandbox.paypal.com/redacted"
+      },
+      {
+        "rel": "batch",
+        "method": "GET",
+        "href": "https://api-m.sandbox.paypal.com/redacted"
+      }
+    ],
+    "payout_item_id": "VDT3P4BV7UA7A",
+    "payout_batch_id": "E6AFDWYNZ2CJ6"
+  },
+  "links": [
+    {
+      "rel": "self",
+      "method": "GET",
+      "href": "https://api-m.sandbox.paypal.com/redacted"
+    },
+    {
+      "rel": "resend",
+      "method": "POST",
+      "href": "https://api-m.sandbox.paypal.com/redacted"
+    }
+  ],
+  "event_version": "1.0"
+}

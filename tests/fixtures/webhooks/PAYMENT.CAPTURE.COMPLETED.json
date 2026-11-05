@@ -1,0 +1,85 @@
+{
+  "id": "WH-1RN312659U2748126-12N85965GB141741Y",
+  "create_time": "2026-10-23T05:33:11.994Z",
+  "resource_type": "capture",
+  "event_type": "PAYMENT.CAPTURE.COMPLETED",
+  "summary": "Payment completed for $ 100.0 USD",
+  "resource": {
+    "amount": {
+      "currency_code": "USD",
+      "value": "100.00"
+    },
+    "seller_protection": {
+      "status": "NOT_ELIGIBLE"
+    },
+    "create_time": "2026-10-23T05:33:06Z",
+    "network_transaction_reference": {
+      "id": "997622141661780",
+      "network": "VISA"
+    },
+    "custom_id": "CK-3h9m9a3y9f-01-3",
+    "payee": {
+      "email_address": "member@example.com",
+      "merchant_id": "TESTPAYER123"
+    },
+    "supplementary_data": {
+      "related_ids": {
+        "order_id": "5W149380T9954981D"
+      }
+    },
+    "update_time": "2026-10-23T05:33:06Z",
+    "final_capture": true,
+    "seller_receivable_breakdown": {
+      "gross_amount": {
+        "currency_code": "USD",
+        "value": "100.00"
+      },
+      "paypal_fee": {
+        "currency_code": "USD",
+        "value": "3.08"
+      },
+      "net_amount": {
+        "currency_code": "USD",
+        "value": "96.92"
+      }
+    },
+    "processor_response": {
+      "avs_code": "",
+      "cvv_code": "M",
+      "response_code": "0000"
+    },
+    "links": [
+      {
+        "rel": "self",
+        "method": "GET",
+        "href": "https://api-m.sandbox.paypal.com/redacted"
+      },
+      {
+        "rel": "refund",
+        "method": "POST",
+        "href": "https://api-m.sandbox.paypal.com/redacted"
+      },
+      {
+        "rel": "up",
+        "method": "GET",
+        "href": "https://api-m.sandbox.paypal.com/redacted"
+      }
+    ],
+    "id": "5T414580X5278171D",
+    "status": "COMPLETED"
+  },
+  "links": [
+    {
+      "rel": "self",
+      "method": "GET",
+      "href": "https://api-m.sandbox.paypal.com/redacted"
+    },
+    {
+      "rel": "resend",
+      "method": "POST",
+      "href": "https://api-m.sandbox.paypal.com/redacted"
+    }
+  ],
+  "event_version": "1.0",
+  "resource_version": "2.0"
+}

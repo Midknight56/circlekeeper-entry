@@ -1,0 +1,126 @@
+{
+  "id": "WH-2S90098919047483T-9VL55806M2875530T",
+  "create_time": "2026-10-23T05:33:07.892Z",
+  "resource_type": "invoices",
+  "event_type": "INVOICING.INVOICE.CANCELLED",
+  "summary": "A merchant or customer cancels an invoice.",
+  "resource": {
+    "invoice": {
+      "id": "INV2-Q3SW-ZXLG-W4M4-3RTZ",
+      "status": "CANCELLED",
+      "detail": {
+        "currency_code": "USD",
+        "note": "Your share of $100.00 for round 1.",
+        "category_code": "SHIPPABLE",
+        "invoice_number": "CK-3h9m9a3y9f-01-1",
+        "invoice_date": "2026-10-22",
+        "payment_term": {
+          "term_type": "DUE_ON_DATE_SPECIFIED",
+          "due_date": "2026-12-10"
+        },
+        "viewed_by_recipient": false,
+        "group_draft": false,
+        "metadata": {
+          "create_time": "2026-10-23T05:32:40Z",
+          "last_update_time": "2026-10-23T05:32:40Z",
+          "cancel_time": "2026-10-23T05:32:57Z",
+          "first_sent_time": "2026-10-23T05:32:41Z",
+          "last_sent_time": "2026-10-23T05:32:41Z",
+          "created_by_flow": "REGULAR_SINGLE",
+          "recipient_view_url": "https://www.sandbox.paypal.com/invoice/p/#Q3SWZXLGW4M43RTZ",
+          "invoicer_view_url": "https://www.sandbox.paypal.com/invoice/details/INV2-Q3SW-ZXLG-W4M4-3RTZ",
+          "caller_type": "API_V2_INVOICE",
+          "spam_info": {}
+        },
+        "archived": false
+      },
+      "invoicer": {
+        "email_address": "member@example.com"
+      },
+      "primary_recipients": [
+        {
+          "billing_info": {
+            "name": {
+              "given_name": "Test",
+              "surname": "Test",
+              "full_name": "Test"
+            },
+            "email_address": "member@example.com"
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": "ITEM-1VW084274G185313G",
+          "name": "Saturday circle: share for round 1",
+          "quantity": "1",
+          "unit_amount": {
+            "currency_code": "USD",
+            "value": "100.00"
+          }
+        }
+      ],
+      "configuration": {
+        "tax_calculated_after_discount": false,
+        "tax_inclusive": false,
+        "allow_tip": false,
+        "allow_only_pay_by_bank": false,
+        "allow_vba_payments": false,
+        "save_item_for_future": true,
+        "template_id": "TEMP-6RK80874D5907605T"
+      },
+      "amount": {
+        "breakdown": {
+          "item_total": {
+            "currency_code": "USD",
+            "value": "100.00"
+          },
+          "discount": {
+            "invoice_discount": {
+              "amount": {
+                "currency_code": "USD",
+                "value": "0.00"
+              }
+            },
+            "item_discount": {
+              "currency_code": "USD",
+              "value": "0.00"
+            }
+          },
+          "tax_total": {
+            "currency_code": "USD",
+            "value": "0.00"
+          }
+        },
+        "currency_code": "USD",
+        "value": "100.00"
+      },
+      "due_amount": {
+        "currency_code": "USD",
+        "value": "100.00"
+      },
+      "links": [
+        {
+          "rel": "self",
+          "method": "GET",
+          "href": "https://api-m.sandbox.paypal.com/redacted"
+        }
+      ],
+      "unilateral": false,
+      "settings": {}
+    }
+  },
+  "links": [
+    {
+      "rel": "self",
+      "method": "GET",
+      "href": "https://api-m.sandbox.paypal.com/redacted"
+    },
+    {
+      "rel": "resend",
+      "method": "POST",
+      "href": "https://api-m.sandbox.paypal.com/redacted"
+    }
+  ],
+  "event_version": "1.0"
+}
