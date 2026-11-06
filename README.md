@@ -99,8 +99,9 @@ All calls go to the PayPal sandbox with the client credentials grant.
 - One Cloudflare Worker serves the pages and the API. Each circle lives in its own Durable Object, so its actions run
   one at a time.
 - The pages are plain HTML and JavaScript.
-- With `LIVE_AI=1`, the treasurer runs on Cloudflare Workers AI, model `@cf/qwen/qwen3-30b-a3b-fp8`, through a small set of read and
+- With `LIVE_AI=1`, the treasurer runs on Cloudflare Workers AI, model `@cf/ibm-granite/granite-4.0-h-micro`, through a small set of read and
   propose tools. It answers in JSON; code checks every action and every sentence.
+- The recorded demo answers were recorded on the earlier model `@cf/qwen/qwen3-30b-a3b-fp8` in October; they are replayed, not regenerated.
 - The organiser's board is a Bryntum Scheduler Pro view: one row per member, a bar per share and per pot, and a
   finish to start line from every share of a round to its pot, so a pot cannot start before its shares are paid.
   Dragging a pot to another member asks both of them; nothing moves until both say yes.

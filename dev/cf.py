@@ -41,6 +41,18 @@ def main():
     if args == ["--ledger-id"]:
         print(read_kv()["HACKATHON_LEDGER_D1_ID"])
         return 0
+    if args and args[0] == "deploy":
+        allow_unchecked = "--allow-unchecked-model" in args
+        args = [arg for arg in args if arg != "--allow-unchecked-model"]
+        check = subprocess.run([sys.executable, os.path.join(ROOT, "dev", "check_model.py")], cwd=ROOT)
+        if check.returncode == 1:
+            print("Deploy stopped: the configured Workers AI model is deprecated or planned for deprecation.", file=sys.stderr)
+            return 1
+        if check.returncode != 0:
+            if not allow_unchecked:
+                print("Deploy stopped: the configured Workers AI model could not be checked. Retry with --allow-unchecked-model to continue.", file=sys.stderr)
+                return 2
+            print("Warning: the configured Workers AI model could not be checked; continuing because --allow-unchecked-model was set.", file=sys.stderr)
     if args and args[0] in ("deploy", "dev"):
         # The Bryntum trial builds are served from public/vendor/bryntum/ (ignored by git), copied fresh each time.
         subprocess.run([sys.executable, os.path.join(ROOT, "dev", "vendor_bryntum.py")], check=True)

@@ -31,14 +31,14 @@ const msgs = [
 ];
 
 describe("neuron caps", () => {
-  it("the worst case call is 21.44 neurons", () => {
-    expect(worstCaseNeurons(8000, 400)).toBe(21.44);
+  it("the worst case call is 7.15 neurons", () => {
+    expect(worstCaseNeurons(8000, 400)).toBe(7.15);
   });
 
   it("the call that would pass 700 neurons is refused before the model runs", async () => {
     const ai = fakeAi();
     const ledger = new MemoryLedger();
-    ledger.rows.push({ id: "x", app: "circlekeeper", day: "2026-12-01", neurons: DAILY_NEURONS - 5 });
+    ledger.rows.push({ id: "x", app: "circlekeeper", day: "2026-12-01", neurons: DAILY_NEURONS - 1 });
     const model = new WorkersAiModel(ai, ledger, () => "2026-12-01");
     await expect(model.complete(msgs, 400)).rejects.toBeInstanceOf(TreasurerResting);
     expect(ai.calls).toHaveLength(0);
@@ -47,7 +47,7 @@ describe("neuron caps", () => {
   it("the account guard refuses when other apps have used the day", async () => {
     const ai = fakeAi();
     const ledger = new MemoryLedger();
-    ledger.rows.push({ id: "x", app: "other-app", day: "2026-12-01", neurons: 9495 });
+    ledger.rows.push({ id: "x", app: "other-app", day: "2026-12-01", neurons: 9499 });
     const model = new WorkersAiModel(ai, ledger, () => "2026-12-01");
     await expect(model.complete(msgs, 400)).rejects.toBeInstanceOf(TreasurerResting);
     expect(ai.calls).toHaveLength(0);
@@ -58,9 +58,9 @@ describe("neuron caps", () => {
     const ledger = new MemoryLedger();
     const model = new WorkersAiModel(ai, ledger, () => "2026-12-01");
     const out = await model.complete(msgs, 400);
-    // 500 x 4,625 / 1e6 + 40 x 30,475 / 1e6 = 2.31 + 1.22 = 3.53
-    expect(out.neurons).toBe(3.53);
-    expect(await ledger.spent("circlekeeper", "2026-12-01")).toBe(3.53);
+    // 500 x 1,542 / 1e6 + 40 x 10,158 / 1e6 = 0.77 + 0.41 = 1.18
+    expect(out.neurons).toBe(1.18);
+    expect(await ledger.spent("circlekeeper", "2026-12-01")).toBe(1.18);
   });
 
   it("a visitor's 7th call is refused", async () => {

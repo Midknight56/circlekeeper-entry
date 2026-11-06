@@ -93,7 +93,7 @@ export async function runTurn(ctx: Ctx, model: Model, speaker: Speaker, text: st
     { role: "system", content: systemPrompt(speaker) },
     {
       role: "user",
-      content: `call_0 (get_circle): ${JSON.stringify(results.call_0)}\ncall_1 (get_round ${round}): ${JSON.stringify(results.call_1)}\nWriting to you: ${JSON.stringify(who)}\nMessage: ${JSON.stringify(text.slice(0, 1000))}`,
+      content: `Writing to you: ${JSON.stringify(who)}\nMessage: ${JSON.stringify(text.slice(0, 1000))}\ncall_0 (get_circle): ${JSON.stringify(results.call_0)}\ncall_1 (get_round ${round}): ${JSON.stringify(results.call_1)}`,
     },
   ];
 

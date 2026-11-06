@@ -5,27 +5,30 @@
 // is an error, never a bill. The 10,000 is for the WHOLE ACCOUNT, shared by every hackathon app on it, so this app keeps
 // its own slice and charges each call BEFORE it runs.
 //
-// Model @cf/qwen/qwen3-30b-a3b-fp8: 4,625 neurons per million input tokens, 30,475 per million output tokens (same page).
+// Model @cf/ibm-granite/granite-4.0-h-micro: 1,542 neurons per million input tokens, 10,158 per million output tokens
+// (developers.cloudflare.com/workers-ai/platform/pricing, read 6 Nov 2026).
+// The old model was moved because its page says "Planned Deprecation 11/20/2026".
+export const RETIRING_MODEL_IDS = ["@cf/qwen/qwen3-30b-a3b-fp8"] as const; // "Planned Deprecation 11/20/2026"
 
-export const MODEL_ID = "@cf/qwen/qwen3-30b-a3b-fp8";
-export const NEURONS_PER_INPUT_TOKEN = 4625 / 1_000_000;
-export const NEURONS_PER_OUTPUT_TOKEN = 30475 / 1_000_000;
+export const MODEL_ID = "@cf/ibm-granite/granite-4.0-h-micro";
+export const NEURONS_PER_INPUT_TOKEN = 1542 / 1_000_000;
+export const NEURONS_PER_OUTPUT_TOKEN = 10158 / 1_000_000;
 
-// About 2,000 tokens at 4 characters a token: 2,000 x 4,625 / 1,000,000 = 9.25 neurons.
+// About 2,000 tokens at 4 characters a token: 2,000 x 1,542 / 1,000,000 = 3.08 neurons (pricing page, read 6 Nov 2026).
 export const MAX_INPUT_CHARS = 8000;
-// 400 x 30,475 / 1,000,000 = 12.19 neurons. Worst case call: 9.25 + 12.19 = 21.44 neurons.
+// 400 x 10,158 / 1,000,000 = 4.06 neurons. Worst case call: 3.08 + 4.06 = 7.15 neurons.
 export const MAX_OUTPUT_TOKENS = 400;
 
-// This app's slice of the account's 10,000: 700 / 21.44 = 32 worst case calls a day. Raise only when the account
+// This app's slice of the account's 10,000: 700 / 7.15 = 97 worst case calls a day. Raise only when the account
 // allocation is re-split (PLAN.md section 3).
 export const DAILY_NEURONS = 700;
 // A second guard over every app on the account: this app refuses a call when the whole ledger for the day would pass
 // 9,500, leaving 500 of the free 10,000 as slack for the other apps' own in-flight calls.
 export const ACCOUNT_DAILY_NEURONS_GUARD = 9500;
 
-// 6 x 21.44 = 128.6 neurons for one visitor at most, 18% of this app's slice.
+// 6 x 7.15 = 42.9 neurons for one visitor at most, 6.1% of this app's slice.
 export const MAX_AI_CALLS_PER_VISITOR_DAY = 6;
-// One user turn is at most 4 model calls: 4 x 21.44 = 85.8 neurons.
+// One user turn is at most 4 model calls: 4 x 7.15 = 28.6 neurons.
 export const MAX_STEPS_PER_TURN = 4;
 
 // PayPal sandbox calls move test money only and cost $0 ("the free sandbox environment", contest rules).

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { runTurn } from "../../src/ai/loop";
-import { RecordedModel } from "../../src/ai/model";
+import { fitMessages, RecordedModel, type ChatMessage, type Completion, type Model } from "../../src/ai/model";
 import { listMessages } from "../../src/circle/messages";
 import { startCircle } from "../../src/circle/shares";
 import { world } from "../helpers/world";
@@ -79,6 +79,26 @@ describe("the tool loop", () => {
     ]);
     const out = await runTurn(w.ctx, model, { role: "member", memberId: "keisha" }, "when is my turn?");
     expect(out.said.map((m) => m.text)).toEqual(["Your turn is in 2027-02, Keisha."]);
+  });
+
+  it("keeps the speaker message in the first model call when circle data is large", async () => {
+    const w = await world();
+    await startCircle(w.ctx);
+    const circle = await w.load();
+    circle.name += " ".repeat(7000);
+    await w.store.put("circle", circle);
+    class CaptureModel implements Model {
+      calls: ChatMessage[][] = [];
+      async complete(messages: ChatMessage[]): Promise<Completion> {
+        this.calls.push(fitMessages(messages));
+        return { text: step(null), inputTokens: 0, outputTokens: 0, neurons: 0, recorded: false };
+      }
+    }
+    const model = new CaptureModel();
+    await runTurn(w.ctx, model, { role: "member", memberId: "sam" }, "Solo tengo 60 esta semana.");
+    expect(model.calls[0].reduce((n, message) => n + message.content.length, 0)).toBe(8000);
+    expect(model.calls[0][1].content).toContain("Writing to you:");
+    expect(model.calls[0][1].content).toContain("Solo tengo 60 esta semana.");
   });
 
   it("a recorded run is labelled recorded and costs 0 neurons", async () => {

@@ -38,17 +38,52 @@ export interface NeuronLedger {
 
 export const APP = "circlekeeper";
 
-/** Keeps the system prompt and the newest messages, dropping the oldest until the prompt fits MAX_INPUT_CHARS. */
+/** Keeps the system prompt, first user message, and newest messages within MAX_INPUT_CHARS. */
 export function fitMessages(messages: ChatMessage[]): ChatMessage[] {
-  const [first, ...rest] = messages;
-  const kept = [...rest];
-  const size = () => (first?.content.length ?? 0) + kept.reduce((n, m) => n + m.content.length, 0);
-  while (kept.length > 1 && size() > MAX_INPUT_CHARS) kept.shift();
-  let out = first ? [first, ...kept] : kept;
-  if (size() > MAX_INPUT_CHARS) {
-    const over = size() - MAX_INPUT_CHARS;
-    const last = out[out.length - 1];
-    out = [...out.slice(0, -1), { ...last, content: last.content.slice(0, Math.max(0, last.content.length - over)) }];
+  if (messages.length < 2) {
+    const [first, ...rest] = messages;
+    const kept = [...rest];
+    const size = () => (first?.content.length ?? 0) + kept.reduce((n, m) => n + m.content.length, 0);
+    while (kept.length > 1 && size() > MAX_INPUT_CHARS) kept.shift();
+    let out = first ? [first, ...kept] : kept;
+    if (size() > MAX_INPUT_CHARS) {
+      const over = size() - MAX_INPUT_CHARS;
+      const last = out[out.length - 1];
+      out = [...out.slice(0, -1), { ...last, content: last.content.slice(0, Math.max(0, last.content.length - over)) }];
+    }
+    return out;
+  }
+
+  let out = [...messages];
+  const size = () => out.reduce((n, message) => n + message.content.length, 0);
+  while (out.length > 4 && size() > MAX_INPUT_CHARS) out.splice(2, 1);
+  if (size() <= MAX_INPUT_CHARS) return out;
+
+  const marker = " ...(cut)";
+  const firstUser = out[1].content;
+  const firstLineEnd = firstUser.indexOf("\n");
+  const secondLineEnd = firstLineEnd < 0 ? -1 : firstUser.indexOf("\n", firstLineEnd + 1);
+  const hasSpeakerHeader = firstUser.startsWith("Writing to you:") && firstUser.slice(firstLineEnd + 1).startsWith("Message:");
+  const protectedUserLength = !hasSpeakerHeader ? 0 : secondLineEnd < 0 ? firstUser.length : secondLineEnd + 1;
+  while (size() > MAX_INPUT_CHARS) {
+    let cutIndex = -1;
+    for (let i = 1; i < out.length; i++) {
+      const minimum = i === 1 ? protectedUserLength + marker.length : marker.length;
+      if (out[i].content.length <= minimum) continue;
+      if (cutIndex < 0 || out[i].content.length > out[cutIndex].content.length) cutIndex = i;
+    }
+    if (cutIndex < 0) {
+      if (out[0].content.length <= marker.length) break;
+      cutIndex = 0;
+    }
+    const cut = out[cutIndex];
+    const minimumContentLength = cutIndex === 1 ? protectedUserLength : 0;
+    const alreadyMarked = cut.content.endsWith(marker);
+    const raw = alreadyMarked ? cut.content.slice(0, -marker.length) : cut.content;
+    const removable = Math.max(0, raw.length - minimumContentLength);
+    const remove = Math.min(removable, size() - MAX_INPUT_CHARS + (alreadyMarked ? 0 : marker.length));
+    const content = raw.slice(0, Math.max(minimumContentLength, raw.length - remove)) + marker;
+    out[cutIndex] = { ...cut, content };
   }
   return out;
 }
@@ -77,8 +112,6 @@ export class WorkersAiModel implements Model {
     const worst = worstCaseNeurons(chars, cap);
     const charge = await this.ledger.charge(APP, this.day(), worst, DAILY_NEURONS, ACCOUNT_DAILY_NEURONS_GUARD);
     if (!charge) throw new TreasurerResting("the day's free model budget is used up");
-    const last = fitted[fitted.length - 1];
-    if (last && last.role === "user") fitted[fitted.length - 1] = { ...last, content: last.content + " /no_think" };
     let out: any;
     try {
       out = await this.ai.run(MODEL_ID, { messages: fitted, max_tokens: cap, temperature: 0.2 });
