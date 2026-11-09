@@ -27,9 +27,9 @@ work, not part of this demo.
 | 1 | https://circlekeeper.midknight-labs.workers.dev, tap "Open the demo circle" | Your own copy of a six member circle. The top of the board says what the circle is waiting for |
 | 2 | Tap Start | Six PayPal sandbox invoices go out. "Show activity" lists each `POST /v2/invoicing/invoices` with HTTP 201 |
 | 3 | Under Member views, open Marisol's page. Tap "Solo tengo 60 esta semana.", then Sí | A recorded model reply offers $60 now and $40 later. Her $100 invoice becomes a $60 invoice and a $40 invoice. Do this before paying her share: a paid invoice cannot be split |
-| 4 | On Marisol's page, pay the $60 part with "Pagar con tarjeta de prueba", or "Pagar en PayPal" with the login below | The board shows $60 paid and $40 still owed. The pot waits |
+| 4 | On Marisol's page, pay the $60 part with "Pagar con tarjeta", or "Pagar en PayPal" with the login below | The board shows $60 paid and $40 still owed. The pot waits |
 | 5 | Open Dana's page, tap "My rent went up. Can I take March instead of May?" | The card shows both dates and the needs that still hold. Theo taps Yes on his page: nothing moves. Dana taps Yes: the turns move |
-| 6 | Pay the other shares and Marisol's $40 (the test card button on each member page, or "Record cash" on the board) | $600 collected, all six shares fully paid |
+| 6 | Pay the other shares and Marisol's $40 (the "Pay by card" button on each member page, or "Record cash" on the board) | $600 collected, all six shares fully paid |
 | 7 | Tap "Confirm the pot" on Dana's page and on Theo's page | The payout goes to PayPal. The board shows the payout batch and SUCCESS |
 | 8 | Open "Round 1 receipt", tap "Check the book" | $600 in, $600 out, $0.00 difference. The check rebuilds the hashes from the receipt data on the page |
 | 9 | Optional: "What if Theo leaves in March?" and "Try to break it" | A ghost schedule beside the real one. Three checks on an isolated copy of the circle, each with 0 PayPal writes |
