@@ -193,7 +193,7 @@ try {
   await step(4, "five-test-card-payments", async () => {
     const ids = ["sam", "keisha", "theo", "amelie", "dana"];
     const first = await memberPage(ids[0], true);
-    await first.getByRole("button", { name: "Pay with a test card" }).waitFor({ timeout: 30000 });
+    await first.getByRole("button", { name: "Pay by card" }).waitFor({ timeout: 30000 });
     await shot(4, "member-before-cards", first);
     for (const memberId of ids) {
       const page = memberId === ids[0] ? first : await memberPage(memberId);

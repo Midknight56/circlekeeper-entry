@@ -56,7 +56,7 @@ test("a full round: setup, start, short share, swap, cash, two confirmers, payou
 
   const keisha = await context.newPage();
   await keisha.goto(demo.memberUrl("keisha"));
-  await keisha.getByRole("button", { name: "Pay with a test card" }).click();
+  await keisha.getByRole("button", { name: "Pay by card" }).click();
   await waitFor(async () => {
     const current = await organiserState();
     const share = current.rounds.find((round: any) => round.round === 1)?.shares.find((item: any) => item.memberId === "keisha");

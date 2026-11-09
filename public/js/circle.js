@@ -466,7 +466,7 @@ function render(next) {
   renderChat(document.querySelector("#chat"), state.messages, { me: "organiser", nameOf: (x) => (x === "treasurer" ? "Treasurer" : nameOf(x)) });
   renderSuggestions(document.querySelector("#suggestions"), state, (text) => post(`/api/circles/${id}/chat`, { k, text }), notice);
   document.querySelector("#recorded-run").textContent = state.treasurer?.recordedRun
-    ? "Demo: the treasurer's answers are a recorded run. Every PayPal call is live in the sandbox."
+    ? "Demo: the treasurer's answers are a recorded run. Every PayPal call is live."
     : "";
   renderLog();
 }

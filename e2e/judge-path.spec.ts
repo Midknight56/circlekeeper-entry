@@ -8,7 +8,7 @@ const fullyPaid = (share: any, cents: number) => {
   const parts = live(share);
   return parts.length > 0 && parts.every((part: any) => PAID.includes(part.status)) && parts.reduce((sum: number, part: any) => sum + part.cents, 0) === cents;
 };
-const CARD = /^(Pay with a test card|Pagar con tarjeta de prueba|Payer avec une carte test)$/;
+const CARD = /^(Pay by card|Pagar con tarjeta|Payer par carte)$/;
 
 test("follows the README judge path: split before payment, both parts paid, swap after two yeses, two confirmations, payout SUCCESS, receipt checks out", async ({ page, context, request }) => {
   test.setTimeout(15 * 60 * 1000);
