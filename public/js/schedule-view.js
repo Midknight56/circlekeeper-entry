@@ -79,11 +79,13 @@ export class BryntumScheduleView {
       const [year, monthNumber] = month.split("-").map(Number);
       const startDate = isPhone ? new Date(year, monthNumber - 1, 1) : monthDate(month);
       const memberWidth = isPhone ? 100 : 132;
+      const monthCount = Math.max(1, (endDate.getUTCFullYear() - startDate.getUTCFullYear()) * 12 + (endDate.getUTCMonth() - startDate.getUTCMonth()));
+      const desktopTickWidth = Math.max(120, Math.floor((this.container.clientWidth - memberWidth - 8) / monthCount));
       this.scheduler = new this.bryntum.SchedulerPro({
         appendTo: this.container,
         startDate,
         endDate: isPhone ? new Date(year, monthNumber, 1) : endDate,
-        viewPreset: { base: "monthAndYear", tickWidth: isPhone ? Math.max(1, this.container.clientWidth - memberWidth - 8) : 224 },
+        viewPreset: { base: "monthAndYear", tickWidth: isPhone ? Math.max(1, this.container.clientWidth - memberWidth - 8) : desktopTickWidth },
         ...(isPhone ? { forceFit: true, autoAdjustTimeAxis: false } : {}),
         height: 360,
         rowHeight: 48,

@@ -2,9 +2,9 @@
 .board, .board .col, .board .card, #schedule { min-width: 0; max-width: 100%; }
 #schedule.bryntum-board { width: 100%; overflow-x: auto; overflow-y: hidden; overscroll-behavior-inline: contain; }
 #schedule.bryntum-board .b-schedulerpro { min-width: 1092px; max-width: none; }
-#schedule .b-sch-event { border: 1px solid var(--c-border); font-weight: 700; font-size: 12px; }
+#schedule .b-sch-event { border: 1px solid var(--c-border); font-weight: 700; font-size: 12px; padding: 0; --b-sch-event-padding-inline: 0; }
 #schedule .b-sch-event.ghost { border: 2px dashed currentColor; opacity: 0.62; pointer-events: none; }
-#schedule .b-sch-event-content { overflow: visible; white-space: nowrap; text-overflow: clip; font-size: 12px; padding-inline: 2px; }
+#schedule .b-sch-event-content { overflow: visible; white-space: nowrap; text-overflow: clip; font-weight: 700; font-size: 12px; padding: 0 1px; margin: 0; }
 #schedule .b-grid-cell[data-column="name"] { font-size: 12px; }
 #schedule .b-sch-dependency { stroke: var(--c-muted); }
 #schedule .moved, #schedule .pulse { animation: schedule-highlight 0.9s ease-in-out; }
@@ -19,8 +19,8 @@
 }
 @media (max-width: 600px) {
   .board .col { display: contents; }
-  .board > #draft-rules { order: 0; }
-  .board > #round-strip { order: 1; }
+  .board > #round-strip { order: 0; }
+  .board > #draft-rules, .board > #rules-card { order: 1; }
   #pending-card { order: 2; }
   #round-card { order: 3; }
   #chat-card { order: 4; }

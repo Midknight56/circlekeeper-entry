@@ -3,7 +3,7 @@ import { createScheduleView } from "/js/schedule-loader.js";
 import { el, money, monthLabel, dayLabel, timeLabel, bindChat, renderChat, renderSuggestions, keepFocus } from "/js/ui.js";
 import { words } from "/js/i18n.js";
 import { guardRows } from "/js/guard-panel.js";
-import { draftRules } from "/js/draft-rules.js";
+import { draftRules, showDraftRules } from "/js/draft-rules.js";
 import { balanceLines } from "/js/share-balance.js";
 import { nextAction, refusalText } from "/js/next-action.js";
 
@@ -173,7 +173,7 @@ function renderRound() {
     for (const line of balanceLines(s, "en")) details.append(el("p", line, "small"));
     row.append(initials, details, amounts);
     if (s && s.state !== "paid" && s.parts.some((p) => p.invoiceId && !PAID.includes(p.status) && p.status !== "CANCELLED")) {
-      row.append(button("Record cash", () => post(`/api/circles/${id}/shares/${r.round}/${m.id}/cash`, { k }), "small"));
+      row.append(button("Record cash", () => post(`/api/circles/${id}/shares/${r.round}/${m.id}/cash`, { k }), "small quiet"));
     }
     list.append(row);
   }
@@ -436,6 +436,25 @@ function render(next) {
   }
   renderRoundStrip();
   rulesPanel.render(state.circle);
+  const roundStrip = document.querySelector("#round-strip");
+  const draftRulesBox = document.querySelector("#draft-rules");
+  const rulesCard = document.querySelector("#rules-card");
+  const linksCard = document.querySelector("#links-card");
+  // Move a box only when it is not already in place: re-inserting it on every poll would take focus out of its inputs.
+  const placeAfter = (anchor, box) => { if (anchor.nextElementSibling !== box) anchor.after(box); };
+  const placeBefore = (anchor, box) => { if (anchor.previousElementSibling !== box) anchor.before(box); };
+  if (state.circle.status === "draft") {
+    if (showDraftRules(state.circle)) {
+      placeAfter(roundStrip, draftRulesBox);
+      placeAfter(linksCard, rulesCard);
+    } else {
+      placeAfter(roundStrip, rulesCard);
+      placeBefore(roundStrip, draftRulesBox);
+    }
+  } else {
+    placeAfter(linksCard, rulesCard);
+    placeBefore(roundStrip, draftRulesBox);
+  }
   renderRound();
   renderMissedAction();
   renderWhatIf();

@@ -41,6 +41,7 @@ export function draftRules(box, circleId, token, summaryBox) {
         summaryBox.hidden = showDraft;
         summaryBox.replaceChildren();
         if (!showDraft) {
+          summaryBox.append(el("h2", "Rules"));
           for (const line of rulesSummary(next)) summaryBox.append(el("p", line, "small"));
           summaryBox.append(el("p", next.demo ? "The demo rules are locked for the recorded run." : "The rules are locked after Start.", "small muted"));
         }
