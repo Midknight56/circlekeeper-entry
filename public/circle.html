@@ -52,8 +52,8 @@
       </section>
       <section class="card" aria-labelledby="guard-title">
         <h2 id="guard-title">Try to break it</h2>
-        <button type="button" class="diagnostic-toggle" aria-expanded="true" aria-controls="guard-body">Show checks</button>
-        <div class="stack" id="guard-body">
+        <button type="button" class="diagnostic-toggle" aria-expanded="false" aria-controls="guard-body">Show checks</button>
+        <div class="stack" id="guard-body" hidden>
           <p class="small muted">Run three isolated checks against the circle rules.</p>
           <div id="guard-action"></div>
           <div id="guard-results" class="stack" aria-live="polite"></div>
@@ -82,13 +82,13 @@
       <section class="card stack" id="rules-card" hidden></section>
       <section class="card" id="changes-card">
         <h2>Changes</h2>
-        <button type="button" class="diagnostic-toggle" aria-expanded="true" aria-controls="changes">Show changes</button>
-        <div id="changes"></div>
+        <button type="button" class="diagnostic-toggle" aria-expanded="false" aria-controls="changes">Show changes</button>
+        <div id="changes" hidden></div>
       </section>
       <section class="card" id="log-card">
         <div class="row between"><h2>Activity</h2><span class="small muted">every model and PayPal call</span></div>
-        <button type="button" class="diagnostic-toggle" aria-expanded="true" aria-controls="log-body">Show activity</button>
-        <div id="log-body">
+        <button type="button" class="diagnostic-toggle" aria-expanded="false" aria-controls="log-body">Show activity</button>
+        <div id="log-body" hidden>
           <div id="filters" class="filters"></div>
           <div id="log" class="log"></div>
         </div>

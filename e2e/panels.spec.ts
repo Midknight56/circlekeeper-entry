@@ -12,7 +12,7 @@ test("organiser can run the guard panel and inspect webhook activity", async ({ 
     await page.goto(demo.organiserUrl);
     await guard.getByRole("button", { name: "Show checks" }).click();
     const guardResponse = page.waitForResponse((response) => response.url().endsWith(`/api/circles/${demo.id}/guard`));
-    await guard.getByRole("button", { name: "Run the three attacks" }).click();
+    await guard.getByRole("button", { name: "Run the three isolated checks" }).click();
     expect((await (await guardResponse).json()).rows).toHaveLength(3);
     await expect(guard.locator("#guard-results article")).toHaveCount(3);
     expect(await measure(page), `guard panel at ${width}px`).toEqual([]);

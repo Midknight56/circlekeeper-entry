@@ -31,10 +31,10 @@ test("the organiser board fits a phone and pages through months", async ({ page,
   const toggle = guard.locator('button[aria-controls="guard-body"]');
   await expect(toggle).toHaveText("Show checks");
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
-  await expect(guard.getByRole("button", { name: "Run the three attacks" })).toBeHidden();
+  await expect(guard.getByRole("button", { name: "Run the three isolated checks" })).toBeHidden();
   await toggle.click();
   await expect(toggle).toHaveAttribute("aria-expanded", "true");
-  await expect(guard.getByRole("button", { name: "Run the three attacks" })).toBeVisible();
+  await expect(guard.getByRole("button", { name: "Run the three isolated checks" })).toBeVisible();
   for (const [card, label, content] of [["#changes-card", "Show changes", "#changes"], ["#log-card", "Show activity", "#log-body"]]) {
     await expect(page.locator(content)).toBeHidden();
     await page.locator(card).getByRole("button", { name: label }).click();

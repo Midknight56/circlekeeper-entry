@@ -6,7 +6,7 @@ import { recordCashShare, startCircle } from "../../src/circle/shares";
 import { world } from "../helpers/world";
 import { sandbox } from "../helpers/sandbox";
 import worker from "../../src/worker";
-import circleSource from "../../public/js/circle.js?raw";
+import nextActionSource from "../../public/js/next-action.js?raw";
 
 async function ready() {
   const w = await world();
@@ -23,8 +23,8 @@ async function release(w: Awaited<ReturnType<typeof ready>>) {
 
 describe("per network live pot limit", () => {
   it("shows the live pot limit sentence on the board", () => {
-    expect(circleSource).toContain("This network has used today's 3 live pots. This pot was not sent. Try again after 00:00 UTC.");
-    expect(circleSource).toContain('refusal === "NETWORK_POT_LIMIT"');
+    expect(nextActionSource).toContain("This network has used today's 3 live pots. This pot was not sent. Try again after 00:00 UTC.");
+    expect(nextActionSource).toContain('refusal === "NETWORK_POT_LIMIT"');
   });
 
   it("refuses a pot before PayPal and the payout day cap, while another network can send", async () => {

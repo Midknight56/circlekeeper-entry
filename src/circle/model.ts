@@ -115,6 +115,22 @@ export interface Missed {
   reason?: string;
 }
 
+export interface SwapNeedInfo {
+  memberId: string;
+  name: string;
+  text: string;
+}
+
+export interface SwapReason {
+  fromMonth: string;
+  toMonth: string;
+  fromNow: string;
+  toNow: string;
+  needsKept: SwapNeedInfo[];
+  conflict?: SwapNeedInfo;
+  consenters: string[];
+}
+
 export interface Swap {
   id: string;
   from: string;
@@ -122,11 +138,12 @@ export interface Swap {
   fromRound: number;
   toRound: number;
   consents: Record<string, "yes" | "no">;
-  status: "asked" | "applied" | "declined";
+  status: "asked" | "applied" | "declined" | "stale";
   createdAt: string;
   appliedAt?: string;
   reason?: string;
   requestRound?: number;
+  why?: SwapReason;
 }
 
 export interface Split {

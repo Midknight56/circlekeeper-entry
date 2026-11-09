@@ -125,10 +125,16 @@ textarea { min-height: 96px; resize: vertical; }
 @keyframes highlight { 50% { outline: 3px solid var(--c-accent); transform: scale(1.05); } }
 
 /* Round strip */
-#round-strip { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.2fr); align-items: center; gap: 32px; min-height: 112px; }
+#round-strip { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.2fr); align-items: center; gap: 24px; min-height: 112px; }
 #round-strip > * { min-width: 0; }
 #round-strip > p { grid-column: span 2; }
-#round-strip > button { justify-self: end; }
+#round-strip > button { justify-self: start; }
+.next-action { grid-column: 1 / -1; display: grid; gap: 6px; }
+.next-title { font-size: clamp(20px, 1.4rem, 1.5rem); font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; word-break: break-word; }
+.next-detail { margin: 0; color: var(--c-muted); overflow-wrap: anywhere; word-break: break-word; }
+.next-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.next-actions .button, .next-actions button, #round-strip .next-actions a.button { padding: 8px 14px; min-height: 36px; box-sizing: border-box; }
+.round-payout { font-size: 1.15rem; font-weight: 600; }
 .bar { height: 8px; border: 1px solid var(--c-border); border-radius: 999px; background: var(--c-sunken); overflow: hidden; }
 .bar > div { height: 100%; background: var(--c-paid); border-radius: inherit; }
 .amount { font-variant-numeric: tabular-nums; }

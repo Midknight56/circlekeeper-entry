@@ -32,6 +32,14 @@ declare module "*.js" {
     moveTurn(swap: any): void;
     markShare(share: any): void;
   }
+  export interface NextAction {
+    title: string;
+    detail: string;
+    members: string[];
+    tone: "wait" | "act" | "done" | "problem";
+  }
+  export function nextAction(state: any): NextAction;
+  export function refusalText(refusal: string | null | undefined): string;
 }
 
 interface ImportMeta {

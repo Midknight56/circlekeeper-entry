@@ -5,6 +5,7 @@ import { words } from "/js/i18n.js";
 import { guardRows } from "/js/guard-panel.js";
 import { draftRules } from "/js/draft-rules.js";
 import { balanceLines } from "/js/share-balance.js";
+import { nextAction, refusalText } from "/js/next-action.js";
 
 const id = location.pathname.split("/").filter(Boolean).pop() || "";
 const k = new URLSearchParams(location.search).get("k") || "";
@@ -16,7 +17,6 @@ let guardResult = [];
 const rulesPanel = draftRules(document.querySelector("#draft-rules"), id, k, document.querySelector("#rules-card"));
 const seenSwaps = new Set();
 
-const phone = window.matchMedia("(max-width: 600px)");
 for (const toggle of document.querySelectorAll(".diagnostic-toggle")) {
   const content = document.getElementById(toggle.getAttribute("aria-controls"));
   const label = toggle.textContent.replace(/^Show /, "");
@@ -25,8 +25,7 @@ for (const toggle of document.querySelectorAll(".diagnostic-toggle")) {
     toggle.setAttribute("aria-expanded", String(open));
     toggle.textContent = `${open ? "Hide" : "Show"} ${label}`;
   };
-  expand(!phone.matches);
-  phone.addEventListener("change", () => expand(!phone.matches));
+  expand(false);
   toggle.addEventListener("click", () => expand(toggle.getAttribute("aria-expanded") !== "true"));
 }
 
@@ -70,18 +69,41 @@ function currentRound() {
 function renderRoundStrip() {
   const box = document.querySelector("#round-strip");
   box.replaceChildren();
+
+  const action = nextAction(state);
+  const nextBlock = el("div", null, "next-action stack");
+  nextBlock.setAttribute("role", "status");
+  nextBlock.setAttribute("aria-live", "polite");
+  nextBlock.append(el("div", action.title, "next-title"));
+  if (action.detail) nextBlock.append(el("p", action.detail, "next-detail muted"));
+
   if (state.circle.status === "draft") {
-    box.append(el("p", "Nothing is sent yet. Start sends round 1's shares as PayPal invoices.", "muted"));
+    box.append(nextBlock);
     box.append(button("Start the circle", async () => {
       await rulesPanel.save();
       await post(`/api/circles/${id}/start`, { k });
     }, "primary"));
     return;
   }
+
+  if (action.members && action.members.length > 0) {
+    const memberActions = el("div", null, "next-actions");
+    for (const memberId of action.members) {
+      const link = (state.memberLinks || []).find((l) => (l.memberId || l.id) === memberId);
+      const a = el("a", `Open ${nameOf(memberId)}'s page`, "button small");
+      a.href = link ? link.url : "#";
+      a.target = "_blank";
+      a.rel = "noopener";
+      memberActions.append(a);
+    }
+    nextBlock.append(memberActions);
+  }
+  box.append(nextBlock);
+
   const r = currentRound();
-  const left = el("div");
+  const left = el("div", null, "round-overview");
   left.append(el("div", `Round ${r.round} of ${state.rounds.length} · ${monthLabel(r.month)}`, "muted small"));
-  left.append(el("div", `${money(r.pot.cents)} to ${nameOf(r.recipientId)}`, "big"));
+  left.append(el("div", `${money(r.pot.cents)} to ${nameOf(r.recipientId)}`, "round-payout"));
   const progress = el("div", null, "stack");
   const totals = el("div", null, "row between small");
   const paid = r.shares.filter((s) => s.state === "paid").length;
@@ -113,15 +135,7 @@ function renderRoundStrip() {
   right.append(steps, el("p", `${confirmers} confirm${r.pot.payoutBatchId ? ` · payout batch ${r.pot.payoutBatchId}${r.pot.itemStatus ? ` · ${r.pot.itemStatus}` : ""}` : ""}`, "small muted"));
   if (r.pot.status === "failed") {
     const refusal = r.pot.refusal;
-    const text = refusal === "NETWORK_POT_LIMIT"
-      ? "This network has used today's 3 live pots. This pot was not sent. Try again after 00:00 UTC."
-      : refusal === "CHECK_BY_HAND"
-      ? "This payout may already be with PayPal, so it cannot be sent again from here. Check the PayPal account."
-      : refusal === "PAYPAL_NOT_ANSWERING"
-        ? "PayPal did not answer after many tries. Nothing is sent twice. Try again when PayPal is back."
-        : refusal === "CK_DAILY_CAP"
-          ? "Today's limit for PayPal calls is reached. Try again after 00:00 UTC."
-          : `PayPal refused this payout: ${refusal}`;
+    const text = refusalText(refusal);
     right.append(el("p", text, "small"));
     if (refusal !== "CHECK_BY_HAND") right.append(button("Try the payout again", () => post(`/api/circles/${id}/rounds/${r.round}/release/retry`, { k })));
   }
@@ -169,7 +183,7 @@ function renderRound() {
 function renderGuard() {
   const action = document.querySelector("#guard-action");
   if (!action.querySelector("button")) {
-    action.append(button("Run the three attacks", async () => {
+    action.append(button("Run the three isolated checks", async () => {
       const result = await post(`/api/circles/${id}/guard`, { k });
       guardResult = result.rows || [];
       renderGuard();
@@ -193,7 +207,17 @@ function renderPending() {
   const box = document.querySelector("#pending");
   box.replaceChildren();
   const open = [
-    ...state.swaps.filter((s) => s.status === "asked").map((s) => `Swap: ${nameOf(s.from)} and ${nameOf(s.to)}. Yes so far: ${Object.keys(s.consents).filter((x) => s.consents[x] === "yes").map(nameOf).join(", ") || "nobody"}.`),
+    ...state.swaps.filter((s) => s.status === "asked").map((s) => {
+      const fromName = nameOf(s.from);
+      const toName = nameOf(s.to);
+      const fromMonth = monthLabel(s.why?.fromMonth || state.circle.rotation.find((r) => r.round === s.fromRound)?.month, "en");
+      const toMonth = monthLabel(s.why?.toMonth || state.circle.rotation.find((r) => r.round === s.toRound)?.month, "en");
+      const trade = `Swap: ${fromName} ${fromMonth} and ${toName} ${toMonth} would trade turns.`;
+      const kept = s.why?.needsKept?.length ? `Still true: ${s.why.needsKept.map((n) => n.text).join(", ")}.` : "No stated needs are affected.";
+      const yesSoFar = Object.keys(s.consents || {}).filter((x) => s.consents[x] === "yes").map(nameOf).join(", ") || "nobody";
+      const votes = `Both must say yes. Yes so far: ${yesSoFar}.`;
+      return `${trade} ${kept} ${votes}`;
+    }),
     ...state.splits.filter((s) => s.status === "proposed").map((s) => `Short share: ${nameOf(s.memberId)}, ${money(s.nowCents)} now and ${money(s.laterCents)} later. Waiting for ${nameOf(s.memberId)}.`),
   ];
   document.querySelector("#pending-card").hidden = open.length === 0;

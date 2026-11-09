@@ -9,7 +9,9 @@
 #schedule .b-sch-dependency { stroke: var(--c-muted); }
 #schedule .moved, #schedule .pulse { animation: schedule-highlight 0.9s ease-in-out; }
 @keyframes schedule-highlight { 50% { outline: 3px solid var(--c-accent); filter: brightness(1.12); } }
-.diagnostic-toggle, .schedule-months { display: none; }
+.schedule-months { display: none; }
+/* Diagnostics start closed at every width, so their toggles show at every width. */
+.diagnostic-toggle { display: inline-flex; margin-bottom: 12px; }
 @media (max-width: 1024px) {
   .schedule-months { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0; }
   .schedule-months output { flex-basis: 100%; }
@@ -30,7 +32,6 @@
   #rules-card { order: 10; }
   #changes-card { order: 11; }
   #log-card { order: 12; }
-  .diagnostic-toggle { display: inline-flex; margin-bottom: 12px; }
   .schedule-months { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0; }
   .schedule-months output { flex-basis: 100%; }
   #schedule.bryntum-board .b-schedulerpro { min-width: 0; max-width: 100%; }

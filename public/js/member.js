@@ -165,6 +165,15 @@ function renderAsks(me) {
     const text = iAmFrom ? t.swapMine(nameOf(s.to)) : t.swapAsk(nameOf(s.from), monthOfRound(s.toRound), monthOfRound(s.fromRound));
     const card = el("div", null, "stack");
     card.append(el("p", text));
+    const fromMonth = monthLabel(s.why?.fromMonth || state.circle.rotation.find((r) => r.round === s.fromRound)?.month, lang);
+    const toMonth = monthLabel(s.why?.toMonth || state.circle.rotation.find((r) => r.round === s.toRound)?.month, lang);
+    const afterFrom = monthLabel(s.why?.fromNow || s.why?.toMonth || state.circle.rotation.find((r) => r.round === s.toRound)?.month, lang);
+    const afterTo = monthLabel(s.why?.toNow || s.why?.fromMonth || state.circle.rotation.find((r) => r.round === s.fromRound)?.month, lang);
+    card.append(el("p", t.swapTurns(nameOf(s.from), fromMonth, nameOf(s.to), toMonth, afterFrom, afterTo), "small"));
+    const kept = s.why?.needsKept?.length ? t.swapNeedsKept(s.why.needsKept.map((n) => n.text).join(", ")) : t.swapNoNeeds;
+    card.append(el("p", kept, "small"));
+    const yesSoFar = Object.keys(s.consents || {}).filter((x) => s.consents[x] === "yes").map(nameOf).join(", ") || t.nobody;
+    card.append(el("p", t.swapVotes(yesSoFar), "small"));
     const row = el("div", null, "row");
     row.append(button(t.yes, () => post(`/api/circles/${id}/swaps/${s.id}/consent`, { k: token, answer: "yes" }), "primary"));
     row.append(button(t.no, () => post(`/api/circles/${id}/swaps/${s.id}/consent`, { k: token, answer: "no" })));

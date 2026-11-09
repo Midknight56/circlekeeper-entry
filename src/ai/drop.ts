@@ -513,3 +513,25 @@ export function applyDropRule(says: Say[], results: Record<string, unknown>, mem
   }
   return { kept, dropped };
 }
+
+// A sentence that says the treasurer took an action must be backed by that action's tool in the same turn.
+export type ActionFamily = "swap" | "split" | "reminder" | "move";
+const CLAIM_VERB = /\b(?:i'?ll propose|i will propose|i'?ve proposed|i have proposed|i proposed|i'?ll ask|i will ask|i'?ve asked|i have asked|i asked|i'?ve sent|i have sent|i sent|te propongo|propongo|propuse|voy a proponer|he propuesto|le pregunte|le pedi|he preguntado|je propose|je vais proposer|j'ai propose|j'ai demande|je vais demander)\b/u;
+const ASKED_VERB = /\b(?:i'?ve asked|i have asked|i asked|i'?ll ask|i will ask|le pregunte|le pedi|he preguntado|j'ai demande|je vais demander)\s+(?:a\s+)?(\p{L}+)/u;
+const SPLIT_WORDS = /\b(?:split|two parts|now and|dividir|dos partes|ahora y|diviser|en deux|deux parties|maintenant et)\b/u;
+const SWAP_WORDS = /\b(?:swap|swaps|exchange|trade|turn|turns|intercambio|intercambiar|cambio|turno|turnos|echange|echanger|tour|tours)\b/u;
+const REMINDER_CLAIM = /\b(?:i sent a reminder|i'?ve sent a reminder|i have sent a reminder|i'?ve reminded|i have reminded|i reminded|reminder sent|envie un recordatorio|j'ai envoye un rappel|rappel envoye)\b/u;
+const MOVE_CLAIM = /\b(?:i'?ve moved|i have moved|i moved|i'?ve changed your turn|i changed your turn|movi|cambie tu turno|j'ai deplace|j'ai change ton tour)\b/u;
+
+export function actionClaim(sentence: string, memberNames: string[] = []): ActionFamily | null {
+  const plain = normalize(sentence).replace(/[‘’]/g, "'").trim();
+  if (plain.endsWith("?") || plain.startsWith("¿")) return null;
+  if (REMINDER_CLAIM.test(plain)) return "reminder";
+  if (MOVE_CLAIM.test(plain)) return "move";
+  if (!CLAIM_VERB.test(plain)) return null;
+  if (SPLIT_WORDS.test(plain)) return "split";
+  if (SWAP_WORDS.test(plain)) return "swap";
+  const asked = plain.match(ASKED_VERB)?.[1];
+  if (asked && memberNames.some((name) => normalize(name.trim()) === asked)) return "swap";
+  return null;
+}

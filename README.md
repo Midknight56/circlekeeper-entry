@@ -5,21 +5,45 @@ treasurer helps everyone agree.
 
 PayPal sandbox only: test money, no real money moves.
 
-## Judge in 60 seconds
+## Who it is for
+
+Small savings groups that already have an organiser. The organiser tracks who paid and settles requests to change
+turns. Circlekeeper keeps payment status and agreed changes in one place.
+
+## What this demo proves
+
+- A share can be split and paid in parts, and the pot waits for the last part.
+- Nothing moves until the members agree: a swap needs both members, a split needs the member, a payout needs the two
+  chosen confirmers.
+- The pot is paid out in the PayPal sandbox, and the round's receipt adds up.
+
+Running it with real money would need the group's own PayPal business account or a licensed partner. That is future
+work, not part of this demo.
+
+## Judge path, about 5 minutes
 
 | Step | Where | What to look at |
 | --- | --- | --- |
-| 1 | https://circlekeeper.midknight-labs.workers.dev, tap "Open the demo circle" | Your own copy of a six member circle. The board is a Bryntum Scheduler Pro view: a bar per share, a bar per pot, a line from each share to its pot |
-| 2 | Tap Start | Six PayPal sandbox invoices go out. The activity panel shows each `POST /v2/invoicing/invoices` with HTTP 201 |
-| 3 | Open Marisol's page, tap "Pagar con tarjeta de prueba" | Her share turns green on the board. Or pay on PayPal's own page with the sandbox login below |
-| 4 | On the board, tap "What if Theo leaves in March?" | A ghost schedule beside the real one, and the change in words. Nothing moves |
+| 1 | https://circlekeeper.midknight-labs.workers.dev, tap "Open the demo circle" | Your own copy of a six member circle. The top of the board says what the circle is waiting for |
+| 2 | Tap Start | Six PayPal sandbox invoices go out. "Show activity" lists each `POST /v2/invoicing/invoices` with HTTP 201 |
+| 3 | Under Member views, open Marisol's page. Tap "Solo tengo 60 esta semana.", then Sí | A recorded model reply offers $60 now and $40 later. Her $100 invoice becomes a $60 invoice and a $40 invoice. Do this before paying her share: a paid invoice cannot be split |
+| 4 | On Marisol's page, pay the $60 part with "Pagar con tarjeta de prueba", or "Pagar en PayPal" with the login below | The board shows $60 paid and $40 still owed. The pot waits |
+| 5 | Open Dana's page, tap "My rent went up. Can I take March instead of May?" | The card shows both dates and the needs that still hold. Theo taps Yes on his page: nothing moves. Dana taps Yes: the turns move |
+| 6 | Pay the other shares and Marisol's $40 (the test card button on each member page, or "Record cash" on the board) | $600 collected, all six shares fully paid |
+| 7 | Tap "Confirm the pot" on Dana's page and on Theo's page | The payout goes to PayPal. The board shows the payout batch and SUCCESS |
+| 8 | Open "Round 1 receipt", tap "Check the book" | $600 in, $600 out, $0.00 difference. The check rebuilds the hashes from the receipt data on the page |
+| 9 | Optional: "What if Theo leaves in March?" and "Try to break it" | A ghost schedule beside the real one. Three checks on an isolated copy of the circle, each with 0 PayPal writes |
 
-- No sign in, no cost: sandbox money only, and the demo treasurer plays recorded answers (0 model calls).
-- Sandbox buyer login for PayPal's page: see "For judges" below.
+## Demo limits
+
+- The treasurer's answers to the suggested messages are recorded model replies, marked "recorded run" on screen.
+- The demo pays out round 1 only. A circle is deleted after 14 days. Open a new copy any time.
+- Member links are private access links. The organiser holds all of them, so two confirmations mean two taps on two
+  member links, not two checked identities.
+- Daily limits: 10 circles and 3 live pots per network, 80 PayPal calls per circle, 1,000 for the whole site. The page
+  says which limit was reached, and it resets at 00:00 UTC. The board, What if and the receipts keep working.
+- No sign in, no cost: sandbox money only.
 - New since 1 Oct 2026: all of it. The repository starts on 22 Oct 2026.
-
-Try it: https://circlekeeper.midknight-labs.workers.dev (free, no sign in). "Open the demo circle" gives you your own
-copy of a six member circle, with the organiser's board and a link to each member's view.
 
 ## For judges: pay a share on PayPal's own page
 
@@ -51,17 +75,19 @@ the circle a treasurer:
    the pot in February". Code builds a rotation that meets every stated need.
 2. Each member's share goes out as a PayPal invoice.
 3. PayPal webhooks mark each share paid on the circle's schedule as soon as it is paid.
-4. The treasurer answers each member in their own language (English, Spanish, French), handles a short share by the
-   circle's own rule, and helps two members swap turns.
+4. The treasurer answers each member in their own language (English, Spanish, French), offers a short share by the
+   circle's own rule, and helps two members swap turns. Every swap card shows both dates and the needs that still
+   hold, from code, not from the model.
 5. When the round is fully paid, two members the circle chose tap Confirm, and code sends the pot by PayPal Payouts.
 6. When a share is still unpaid after its due date and the circle's grace days, the circle's own rule runs: the late
    member's turn moves to the end of the rotation, or the pot waits. The board shows the planned change as ghost bars,
    and nothing moves until the confirmers tap yes. The PayPal invoice stays open.
 7. The organiser can ask "what if Theo leaves in March?" or add a member. Code solves the open turns again and the
    board shows a ghost schedule beside the real one, with the change in words, before anyone decides. Nothing moves.
-8. Every round ends with a receipt: money in, money out, a $0.00 difference, and a SHA-256 book anyone can check in
-   the browser.
-9. A "Try to break it" panel runs three attacks on a copy of the circle. Each one shows 0 PayPal writes.
+8. Every round ends with a receipt: money in, money out and the difference. A SHA-256 check in the browser rebuilds
+   the hashes from the receipt data on the page. It checks that data is consistent; it is not a bank statement.
+9. A "Try to break it" panel runs three checks on an isolated copy of the circle. It simulates some PayPal replies
+   and blocks payment writes, and each check shows 0 PayPal writes. It is not a full security audit.
 
 ## The rule
 

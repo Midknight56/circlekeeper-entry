@@ -313,10 +313,12 @@ export async function checkoutBlocksReplacement(ctx: Ctx, share: Share): Promise
 function completedCapture(body: any, part: SharePart): { id: string; cents: number; at?: string } | undefined {
   const units = body?.purchase_units;
   if (!part.orderId || body?.id !== part.orderId || body?.status !== "COMPLETED" || !Array.isArray(units) || units.length !== 1) return;
-  if (units[0].custom_id !== part.number) return;
   const caps = units[0].payments?.captures;
   if (!Array.isArray(caps) || caps.length !== 1) return;
   const cap = caps[0];
+  // PayPal may carry custom_id on the unit, on the capture, or both (the sandbox's card answer moved it on 9 Nov 2026).
+  const tags = [units[0].custom_id, cap.custom_id].filter((tag) => tag !== undefined);
+  if (!tags.length || tags.some((tag) => tag !== part.number)) return;
   const cents = Math.round(Number(cap.amount?.value) * 100);
   if (!cap.id || cap.status !== "COMPLETED" || cap.amount?.currency_code !== "USD" || cents !== part.cents) return;
   return { id: cap.id, cents, at: cap.create_time };

@@ -62,6 +62,6 @@ describe("organiser swap asks", () => {
     const { circle } = await setup();
     const response = await ask(circle, circle.organiserToken, "dana", "keisha");
     expect(response.status).toBe(409);
-    expect(await response.json()).toMatchObject({ ok: false, error: expect.stringContaining("that swap breaks a stated need: Keisha needs 2027-02") });
+    expect(await response.json()).toMatchObject({ ok: false, error: expect.stringContaining("that swap breaks a stated need: Keisha needs February 2027") });
   });
 });

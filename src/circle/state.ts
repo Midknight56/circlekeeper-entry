@@ -9,6 +9,7 @@ import { keys, memberById, partPaid, shareState, type Circle, type LogEntry, typ
 import type { WebhookRecord } from "./webhook-log";
 import { changeText } from "./missed";
 import { checkoutPending } from "./shares";
+import { swapReason } from "./swap";
 
 export type Viewer = { role: "organiser" } | { role: "member"; memberId: string };
 
@@ -111,7 +112,27 @@ export async function stateFor(ctx: Ctx, c: Circle, viewer: Viewer, treasurer: R
         lines: settlement.lines.map((line) => ({ memberId: line.memberId, parts: line.partDetails.map((part) => ({ invoiceId: part.invoiceId, cents: part.cents, paid: part.paid, method: part.method })) })),
       });
     }))),
-    swaps: swaps.map((s) => ({ id: s.id, from: s.from, to: s.to, fromRound: s.fromRound, toRound: s.toRound, status: s.status, consents: s.consents })),
+    swaps: swaps.map((s) => {
+      const canSeeWhy = viewer.role === "organiser" || (viewer.role === "member" && (s.from === viewer.memberId || s.to === viewer.memberId));
+      let why = s.why;
+      if (canSeeWhy && !why) {
+        const { conflict: _c, ...computed } = swapReason(c, s.from, s.to, s.fromRound, s.toRound);
+        why = computed;
+      } else if (canSeeWhy && why) {
+        const { conflict: _c, ...clean } = why;
+        why = clean;
+      }
+      return {
+        id: s.id,
+        from: s.from,
+        to: s.to,
+        fromRound: s.fromRound,
+        toRound: s.toRound,
+        status: s.status,
+        consents: s.consents,
+        ...(canSeeWhy && why ? { why } : {}),
+      };
+    }),
     splits: splits.map((s) => ({ id: s.id, round: s.round, memberId: s.memberId, nowCents: s.nowCents, laterCents: s.laterCents, dueDate: s.dueDate, status: s.status })),
     missed: missed.map((item) => viewer.role === "organiser"
       ? { ...item, change: changeText(c, item, "en") }

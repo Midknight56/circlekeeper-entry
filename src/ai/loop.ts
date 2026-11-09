@@ -7,7 +7,7 @@ import { addMsg } from "../circle/messages";
 import { memberById, type Lang, type Msg } from "../circle/model";
 import { loadCircle } from "../circle/shares";
 import { privateMemberClaim } from "../circle/privacy";
-import { applyDropRule, splitSentences, type Say } from "./drop";
+import { actionClaim, applyDropRule, splitSentences, type ActionFamily, type Say } from "./drop";
 import { TreasurerResting, type ChatMessage, type Model, type RestingReason } from "./model";
 import { systemPrompt } from "./prompt";
 import { circleView, currentRound, roundView, validateAction, type Speaker } from "./tools";
@@ -105,6 +105,7 @@ export async function runTurn(ctx: Ctx, model: Model, speaker: Speaker, text: st
   let next = 2;
   let resting: string | undefined;
   let restingKind: RestingReason | undefined;
+  const succeeded = new Set<string>();
 
   try {
     while (steps < MAX_STEPS_PER_TURN) {
@@ -147,6 +148,7 @@ export async function runTurn(ctx: Ctx, model: Model, speaker: Speaker, text: st
           r = { error: "that did not work" };
         }
         results[callId] = r;
+        if (!r.error && r.ok !== false) succeeded.add(v.tool.name);
         await addLog(ctx, { kind: "tool", tool: v.tool.name, callId, note: summarise(r) });
       }
       if (steps < MAX_STEPS_PER_TURN) messages.push({ role: "user", content: `${callId}: ${JSON.stringify(results[callId]).slice(0, 3000)}` });
@@ -162,8 +164,25 @@ export async function runTurn(ctx: Ctx, model: Model, speaker: Speaker, text: st
     if (to) targeted.push({ ...s, to });
     else await addLog(ctx, { kind: "drop", note: `dropped: addressed to ${s.to.slice(0, 40)}, not to the person writing` });
   }
+  // The treasurer may say it proposed something only when that tool succeeded in this turn. It never moves turns.
+  const backing: Record<ActionFamily, string | null> = { swap: "propose_swap", split: "propose_split", reminder: "draft_reminder", move: null };
+  const memberNames = c.members.map((m) => m.name);
+  let claimDrops = 0;
+  const honest: Say[] = [];
+  for (const s of targeted) {
+    const remaining: string[] = [];
+    for (const sentence of splitSentences(s.text)) {
+      const family = actionClaim(sentence, memberNames);
+      const tool = family ? backing[family] : null;
+      if (family && !(tool && succeeded.has(tool))) {
+        claimDrops++;
+        await addLog(ctx, { kind: "drop", note: `dropped: claims an action that did not happen ("${family}") in "${sentence.slice(0, 200)}"` });
+      } else remaining.push(sentence);
+    }
+    if (remaining.length) honest.push({ ...s, text: remaining.join(" ") });
+  }
   const speakerName = speaker.role === "member" ? memberById(c, speaker.memberId)?.name : undefined;
-  const checked = applyDropRule(targeted, results, c.members.map((m) => m.name), { speakerName });
+  const checked = applyDropRule(honest, results, c.members.map((m) => m.name), { speakerName });
   for (const d of checked.dropped) {
     await addLog(ctx, { kind: "drop", note: `dropped: not backed by a tool result ("${d.token}")${d.clause ? ` in "${d.clause}"` : ""}` });
   }
@@ -195,7 +214,7 @@ export async function runTurn(ctx: Ctx, model: Model, speaker: Speaker, text: st
     said.push(await addMsg(ctx, { to: s.to, from: "treasurer", text: s.text, kind: "chat", recorded, refs: s.refs }));
   }
   if (resting) await addLog(ctx, { kind: "rule", note: `treasurer resting: ${resting}` });
-  return { said, dropped: checked.dropped.length + privacyDrops, steps, refused, neurons: Math.round(neurons * 100) / 100, recorded, resting };
+  return { said, dropped: checked.dropped.length + privacyDrops + claimDrops, steps, refused, neurons: Math.round(neurons * 100) / 100, recorded, resting };
 }
 
 function summarise(r: Record<string, unknown>): string {
