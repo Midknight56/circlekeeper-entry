@@ -7,15 +7,17 @@ PayPal sandbox only: test money, no real money moves.
 
 ## Judging criteria at a glance
 
-**Technological Implementation.** PayPal Invoicing (one invoice per share, split into parts when a member asks), Orders (checkout and the test card), Payouts (the pot) and verified Webhooks. AI: Granite 4.0 H Micro on Cloudflare Workers AI, with read and propose tools. Code drops any sentence that claims an action no tool performed, and checks amounts, dates, people and payment status against tool results. "Try to break it" runs three checks, each with 0 PayPal writes.
+**In short.** Circlekeeper is for the organiser of a small savings circle. Each month every member pays the same share and one member takes the whole pot. Today the organiser tracks this in a notebook and a group chat. Circlekeeper bills each share as a PayPal invoice, lets a member split a share or swap a turn only with their own yes, and sends the pot by PayPal Payouts. An AI treasurer on Cloudflare Workers AI answers questions and proposes changes. People approve them.
+
+**Technological Implementation.** PayPal Invoicing (one invoice per share, split into parts when a member asks), Orders (checkout and the test card), Payouts (the pot) and verified Webhooks. AI: Granite 4.0 H Micro on Cloudflare Workers AI, with read and propose tools. Code drops any sentence that claims an action no tool performed, and checks amounts, dates, people and payment status against tool results. "Try to break it" runs three checks, each with 0 PayPal writes. Check it: [src/paypal/invoices.ts](https://github.com/Midknight56/circlekeeper-entry/blob/main/src/paypal/invoices.ts), [src/paypal/payouts.ts](https://github.com/Midknight56/circlekeeper-entry/blob/main/src/paypal/payouts.ts), [src/paypal/webhooks.ts](https://github.com/Midknight56/circlekeeper-entry/blob/main/src/paypal/webhooks.ts), [src/ai/drop.ts](https://github.com/Midknight56/circlekeeper-entry/blob/main/src/ai/drop.ts), [docs/REVIEW-PACKAGE.md](https://github.com/Midknight56/circlekeeper-entry/blob/main/docs/REVIEW-PACKAGE.md).
 
 **Design.** The organiser's board always says what the round is waiting for, with that member's page one tap away. The schedule shows every member's turn at once. Each member gets a Bryntum Calendar with their own dates in their own language.
 
 **Potential Impact.** For small savings circles that already have an organiser, who today tracks shares in a notebook and a group chat. In Africa south of the Sahara, 1 in 4 adults saved through a savings club or a person outside the family in 2021 (World Bank, Global Findex Database 2021).
 
-**Innovation/Idea.** Group consent and PayPal money in one flow. A split needs the member's yes, a swap needs both members, a payout needs the two chosen confirmers, and the pot waits for the last part of every share.
+**Innovation/Idea.** Group consent and PayPal money in one flow. A split needs the member's yes, a swap needs both members, a payout needs the two chosen confirmers, and the pot waits for the last part of every share. A notebook or a spreadsheet records who paid. It cannot hold the pot until every part of every share is in, or stop a turn from moving until both members agree. Check it: [src/circle/split.ts](https://github.com/Midknight56/circlekeeper-entry/blob/main/src/circle/split.ts), [src/circle/swap.ts](https://github.com/Midknight56/circlekeeper-entry/blob/main/src/circle/swap.ts), [src/circle/gate.ts](https://github.com/Midknight56/circlekeeper-entry/blob/main/src/circle/gate.ts).
 
-**Presentation.** The video runs 2 minutes 48 seconds. Try it at https://circlekeeper.midknight-labs.workers.dev: split a share, agree a swap, pay out the pot and check the receipt.
+**Presentation.** The video runs 2 minutes 48 seconds. Try it at https://circlekeeper.midknight-labs.workers.dev: split a share, agree a swap, pay out the pot and check the receipt. Video guide: 0:21 Start sends six PayPal invoices; 0:39 Marisol splits her share: 60 now, 40 later; 1:15 a turn swap waits for both members; 2:04 PayPal Payouts sends the $600 pot; 2:19 the receipt shows $600 in and $600 out.
 
 ## Who it is for
 
