@@ -5,6 +5,18 @@ treasurer helps everyone agree.
 
 PayPal sandbox only: test money, no real money moves.
 
+## Judging criteria at a glance
+
+**Technological Implementation.** PayPal Invoicing (one invoice per share, split into parts when a member asks), Orders (checkout and the test card), Payouts (the pot) and verified Webhooks. AI: Granite 4.0 H Micro on Cloudflare Workers AI, with read and propose tools. Code drops any sentence that claims an action no tool performed, and checks amounts, dates, people and payment status against tool results. "Try to break it" runs three checks, each with 0 PayPal writes.
+
+**Design.** The organiser's board always says what the round is waiting for, with that member's page one tap away. The schedule shows every member's turn at once. Each member gets a Bryntum Calendar with their own dates in their own language.
+
+**Potential Impact.** For small savings circles that already have an organiser, who today tracks shares in a notebook and a group chat. In Africa south of the Sahara, 1 in 4 adults saved through a savings club or a person outside the family in 2021 (World Bank, Global Findex Database 2021).
+
+**Innovation/Idea.** Group consent and PayPal money in one flow. A split needs the member's yes, a swap needs both members, a payout needs the two chosen confirmers, and the pot waits for the last part of every share.
+
+**Presentation.** The video runs 2 minutes 48 seconds. Try it at https://circlekeeper.midknight-labs.workers.dev: split a share, agree a swap, pay out the pot and check the receipt.
+
 ## Who it is for
 
 Small savings groups that already have an organiser. The organiser tracks who paid and settles requests to change
