@@ -19,6 +19,7 @@ describe("invoice seller name", () => {
       cents: 10000, dueDate: "2026-12-10", itemName: "Circle share", note: "n",
     }, "req-1");
     const sent = fake.calls("POST /v2/invoicing/invoices")[0];
-    expect(sent.body.invoicer.business_name).toBe("Circlekeeper (sandbox)");
+    expect(sent.body.invoicer.business_name).toBe("Circlekeeper");
+    expect(JSON.stringify(sent.body)).not.toMatch(/sandbox/i);
   });
 });

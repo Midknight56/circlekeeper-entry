@@ -28,7 +28,7 @@ export async function createInvoice(pp: PayPal, inv: NewInvoice, requestId: stri
         payment_term: { due_date: inv.dueDate },
       },
       // business_name is what the payer page shows as the seller (proven on a draft, 23 Oct).
-      invoicer: { email_address: inv.invoicerEmail, business_name: "Circlekeeper (sandbox)" },
+      invoicer: { email_address: inv.invoicerEmail, business_name: "Circlekeeper" },
       primary_recipients: [
         {
           billing_info: {

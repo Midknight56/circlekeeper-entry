@@ -441,7 +441,7 @@ async function recordCapturedPart(ctx: Ctx, share: Share, part: SharePart): Prom
   const rec = await ctx.pp.request(
     "POST",
     `/v2/invoicing/invoices/${part.invoiceId}/payments`,
-    { method: card ? "CREDIT_CARD" : "PAYPAL", payment_date: part.capturedAt!.slice(0, 10), amount: { currency_code: "USD", value: money(part.capturedCents!) }, note: `${card ? "sandbox card order" : "order"} ${part.orderId}` },
+    { method: card ? "CREDIT_CARD" : "PAYPAL", payment_date: part.capturedAt!.slice(0, 10), amount: { currency_code: "USD", value: money(part.capturedCents!) }, note: `${card ? "card order" : "order"} ${part.orderId}` },
     { requestId: part.requestId + (card ? "-cardpay" : "-orderpay") },
   );
   if (rec.status < 200 || rec.status >= 300) {
